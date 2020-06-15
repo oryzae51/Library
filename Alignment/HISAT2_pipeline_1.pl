@@ -4,9 +4,9 @@ use warnings;
 
 #Write fastq file dir and index dir
 my $directory = shift; #raw fastq file directory
-my $idx_dir = shift; #Index file directory
+my $hisat2_indx = shift; #Index file directory and basename
 my $specific_name = "*fastq.gz"; #specific_name for fastq file
-my $hit_dir = shift;
+my $hit_file = shift; #file directory of SAM
 
 #Extract each fastq file drictory from $fastq_dir and save to @file_list
 #my $file = `find $directory -name "*.fastq"`;
@@ -37,9 +37,11 @@ for (@file_list){
 #     if ($i >=16){last;}
 # }
 
-for (my $i=0; $i<$#file_list; $i+=2){
+for (my $i=0; $i<$#file_list+1; $i+=2){
     my @Oname_1 = split(/\//, $file_list[$i]);
     my @Oname_2 = split(/_/, $Oname_1[-1]);
     print("Making alignment file named $Oname_2[0]....\n");
-    `hisat2 -x $idx_dir -1 $file_list[$i] -2 $file_list[$i+1] -S $hit_dir`;
+    print("$file_list[$i]\n");
+    print("$file_list[$i+1]\n");
+    #`hisat2 -x $hisat2_indx -1 $file_list[$i] -2 $file_list[$i+1] -S $hit_file/$Oname_2[0]`;
 }

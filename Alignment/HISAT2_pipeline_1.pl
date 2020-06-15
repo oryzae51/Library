@@ -40,7 +40,7 @@ for (@file_list){
 my $i = 0;
 for (@file_list){
     my @Oname_1 = split(/\//, $file_list[$i]);
-    @Oname_2 = split(/_/, $Oname_1[-1]);
+    my @Oname_2 = split(/_/, $Oname_1[-1]);
     print("Making alignment file named $Oname_2[0]....\n");
     `hisat2 -x $idx_dir -1 $file_list[$i] -2 $file_list[$i+1] -S $hit_dir`;
     $i+=2;

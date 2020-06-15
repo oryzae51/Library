@@ -8,7 +8,7 @@ my $specific_name = shift; #Specific name for SAM file
 
 #Declare SAM file directory list
 my @file_list = ();
-push(`find $directory -name '$specific_name'`, @file_list);
+push(@file_list, `find $directory -name '$specific_name'`);
 @file_list = sort(@file_list);
 
 #Extract file name from @file_list directory

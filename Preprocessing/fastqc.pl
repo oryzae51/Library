@@ -14,7 +14,6 @@ push(@file_list, `find $fastq_dir -name '$specific_name'`);
 @file_list = sort(@file_list); #sort in suffix
 
 #Iterate each file in @file_list and run fastq
-print("Directory where you want to save : ");
 
 my $i = 0;
 foreach (@file_list) {

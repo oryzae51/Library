@@ -3,10 +3,13 @@ use strict;
 use warnings;
 
 #Write fastq file dir and index dir
-my $directory = <STDIN>; #raw fastq file directory
-my $hisat2_indx = <STDIN>; #Index file directory and basename
+my $directory = <STDIN>;
+chomp($directory); #raw fastq file directory
+my $hisat2_indx = <STDIN>;
+chomp($hisat2_indx); #Index file directory and basename
 my $specific_name = "*fastq.gz"; #specific_name for fastq file
-my $hit_file = <STDIN>; #file directory of SAM
+my $hit_file = <STDIN>;
+chomp($hit_file); #file directory of SAM
 
 #Extract each fastq file drictory from $fastq_dir and save to @file_list
 #my $file = `find $directory -name "*.fastq"`;
@@ -15,12 +18,14 @@ my $hit_file = <STDIN>; #file directory of SAM
 my @file_list = ();
 push(@file_list, `find $directory -name '$specific_name'`);
 @file_list = sort(@file_list); #sort in suffix
-shift(@file_list);
+#shift(@file_list);
 #check if the @file_list is made correctly
 for (@file_list){
-    print("$_");
+    chomp($_);
 }
-
+for (@file_list){
+    print($_);
+}
 # my $i = 0;
 # for (@file_list){
 #     my @Oname = split(/\//, $file_list[$i]);
@@ -42,5 +47,6 @@ for (my $i=0; $i<$#file_list+1; $i+=2){
     print("Making alignment file named $Oname_2[0]....\n");
     print("$file_list[$i]\n");
     print("$file_list[$i+1]\n");
+    #print("hisat2 -x $hisat2_indx -1 $file_list[$i] -2 $file_list[$i+1] -S $hit_file/$Oname_2[0]\n");
     `hisat2 -x $hisat2_indx -1 $file_list[$i] -2 $file_list[$i+1] -S $hit_file/$Oname_2[0]`;
 }

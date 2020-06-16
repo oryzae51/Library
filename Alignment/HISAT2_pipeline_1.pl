@@ -3,10 +3,10 @@ use strict;
 use warnings;
 
 #Write fastq file dir and index dir
-my $directory = shift; #raw fastq file directory
-my $hisat2_indx = shift; #Index file directory and basename
+my $directory = <STDIN>; #raw fastq file directory
+my $hisat2_indx = <STDIN>; #Index file directory and basename
 my $specific_name = "*fastq.gz"; #specific_name for fastq file
-my $hit_file = shift; #file directory of SAM
+my $hit_file = <STDIN>; #file directory of SAM
 
 #Extract each fastq file drictory from $fastq_dir and save to @file_list
 #my $file = `find $directory -name "*.fastq"`;

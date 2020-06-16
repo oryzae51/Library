@@ -15,9 +15,8 @@ my $hit_file = <STDIN>; #file directory of SAM
 my @file_list = ();
 push(@file_list, `find $directory -name '$specific_name'`);
 @file_list = sort(@file_list); #sort in suffix
-
+shift(@file_list);
 #check if the @file_list is made correctly
-@file_list = sort(@file_list);
 for (@file_list){
     print("$_");
 }

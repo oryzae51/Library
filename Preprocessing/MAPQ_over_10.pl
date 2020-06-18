@@ -25,8 +25,8 @@ shift(@file_list);
 for (@file_list){
     my @Oname = split(/\//, $_);
     print("\n\n--------\nCutting SAM file named $Oname[-1]...\n--------\n");
-    print("samtools view -q 10 -h -b $outdir$Oname[-1] $_");
-    `samtools view -q 10 -h -b $outdir$Oname[-1] $_`;
+    print("samtools view -q 10 -h -o $outdir$Oname[-1] $_");
+    `samtools view -q 10 -h -o $outdir$Oname[-1] $_`;
 
 }
 

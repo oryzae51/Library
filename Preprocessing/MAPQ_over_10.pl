@@ -24,9 +24,9 @@ for (@file_list){
 
 }
 
-#Cut of with samtools
-my $i = 0;
-foreach (@file_list) {
-    print("Cutting SAM file $_ ...\n");
-    `samtools view -q 10 -h -o $directory$filename_list[$i] $_`;
-}
+# #Cut of with samtools
+# my $i = 0;
+# foreach (@file_list) {
+#     print("Cutting SAM file $_ ...\n");
+#     `samtools view -q 10 -h -o $directory$filename_list[$i] $_`;
+# }

@@ -4,13 +4,13 @@ use strict;
 
 print("Sam file directory : ");
 my $directory = <STDIN>; #SAM file directory
-chomp();
+chomp($directory);
 print("Specific name for SAM file : ");
 my $specific_name = <STDIN>; #Specific name for SAM file
-chomp();
-print("Output file directory : ");
+chomp($specific_name);
+print("Output file directory with last / : ");
 my $outdir = <STDIN>;
-chomp();
+chomp($outdir);
 #Extract each SAM file directory from $directory and save to @file_list
 
 #Declare SAM file directory list
@@ -25,7 +25,7 @@ shift(@file_list);
 for (@file_list){
     my @Oname = split(/\//, $_);
     print("\n--------\nCutting SAM file named $Oname[-1]...\n--------\n");
-    print("samtools view -q 10 -h -o $Oname[-1] $_");
+    print("samtools view -q 10 -h -o $outdir$Oname[-1] $_");
     #`samtools view -q 10 -h -o $directory$_ $_`;
 
 }

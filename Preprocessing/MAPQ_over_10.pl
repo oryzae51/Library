@@ -10,7 +10,7 @@ my $specific_name = <STDIN>; #Specific name for SAM file
 #chomp($specific_name);
 print("Output file directory with last / : ");
 my $outdir = <STDIN>;
-#chomp($outdir);
+chomp($outdir);
 #Extract each SAM file directory from $directory and save to @file_list
 
 #Declare SAM file directory list

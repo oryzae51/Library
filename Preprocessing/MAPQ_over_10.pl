@@ -4,13 +4,13 @@ use strict;
 
 print("Sam file directory : ");
 my $directory = <STDIN>; #SAM file directory
-chomp($directory);
+#chomp($directory);
 print("Specific name for SAM file : ");
 my $specific_name = <STDIN>; #Specific name for SAM file
-chomp($specific_name);
+#chomp($specific_name);
 print("Output file directory with last / : ");
 my $outdir = <STDIN>;
-chomp($outdir);
+#chomp($outdir);
 #Extract each SAM file directory from $directory and save to @file_list
 
 #Declare SAM file directory list

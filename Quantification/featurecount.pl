@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 #Write annotation gtf file dir
-print("Write annotation gtf file dir:\n")
+print("Write annotation gtf file dir:\n");
 my $gtf_dir = <STDIN>;
 chomp($gtf_dir);
 my @gtf_list = ();

@@ -48,7 +48,7 @@ foreach(@align_data_list){
 	for (@sam_list){
 	    chomp($_);
 	}
-	for (@sam_list);{
+	for (@sam_list){
 		print("$_\n");
 	}
 

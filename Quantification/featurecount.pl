@@ -55,7 +55,7 @@ foreach(@align_data_list){
 	foreach (@sam_list){
 	    my @Oname_1 = split(/\//, $_);
 	    print("Making counting file named $Oname_1[-1]....\n");
-	    print("$sam_list[$i]\n");
+	    print("$_\n");
 	    print("printing command:\nfeatureCounts -T 4 -p -a $gtf_dir -t exon -g gene id -o $Oname_1[-1].txt $_\n\n");
 	    #`featureCounts -T 4 -p -a $gtf_dir -t exon -g gene id -o $_.txt $sam_dir`;
 	}

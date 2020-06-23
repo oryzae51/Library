@@ -6,21 +6,16 @@ use warnings;
 print("Write annotation gtf file dir:\n");
 my $gtf_dir = <STDIN>;
 chomp($gtf_dir);
-my @gtf_list = ();
-push(@gtf_list, `find $gtf_dir`);
-shift(@gtf_list);
-@gtf_list = sort(@gtf_list);
-for (@gtf_list){
-    chomp($_);
-}
-for (@gtf_list){
-    print("$_\n");
-}
 
 #Write input align_data dir
 print("Write input align_data dir\n");
 my $align_data_dir = <STDIN>;
 chomp($align_data_dir);
+
+#Write output pathway you want
+print("Write output pathway you want:\n");
+my $out_dir = <STDIN>;
+chomp($out_dir);
 
 # #Write input BAM/SAM dir
 # print("Write input BAM/SAM dir\n");
@@ -29,8 +24,7 @@ chomp($align_data_dir);
 
 #add sam folder dir to list
 my @align_data_list = ();
-push(@align_data_list, `find $align_data_dir`);
-shift(@align_data_list);
+push(@align_data_list, `ls -d */`);
 @align_data_list = sort(@align_data_list);
 for (@align_data_list){
     chomp($_);
@@ -42,7 +36,7 @@ for (@align_data_list){
 #iterate @align_data_list
 foreach(@align_data_list){
 	my @sam_list = ();
-	push(@sam_list, `find $_`);
+	push(@sam_list, `find "$(pwd)`);#find absolute path of file
 	shift(@sam_list);
 	@sam_list = sort(@sam_list);
 	for (@sam_list){

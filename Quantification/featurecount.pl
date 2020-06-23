@@ -26,7 +26,7 @@ chomp($out_dir);
 my @align_data_list = ();
 push(@align_data_list, `find $align_data_dir`);
 @align_data_list = sort(@align_data_list);
-shift(@align_data_list)
+shift(@align_data_list);
 for (@align_data_list){
     chomp($_);
 }

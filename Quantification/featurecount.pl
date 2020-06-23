@@ -27,6 +27,10 @@ my @align_data_list = ();
 push(@align_data_list, `find $align_data_dir`);
 @align_data_list = sort(@align_data_list);
 shift(@align_data_list);
+shift(@align_data_list);
+shift(@align_data_list);
+shift(@align_data_list);
+shift(@align_data_list);
 for (@align_data_list){
     chomp($_);
 }
@@ -37,7 +41,7 @@ for (@align_data_list){
 #iterate @align_data_list
 foreach(@align_data_list){
 	my @sam_list = ();
-	push(@sam_list, `find "$(pwd)"`);#find absolute path of file
+	push(@sam_list, `find $_ "$(pwd)"`);#find absolute path of file
 	shift(@sam_list);
 	@sam_list = sort(@sam_list);
 	for (@sam_list){

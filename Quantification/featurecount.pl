@@ -25,12 +25,12 @@ chomp($out_dir);
 #add sam folder dir to list
 my @align_data_list = ();
 push(@align_data_list, `find $align_data_dir`);
+shift(@align_data_list);
+shift(@align_data_list);
+shift(@align_data_list);
+shift(@align_data_list);
+shift(@align_data_list);
 @align_data_list = sort(@align_data_list);
-shift(@align_data_list);
-shift(@align_data_list);
-shift(@align_data_list);
-shift(@align_data_list);
-shift(@align_data_list);
 for (@align_data_list){
     chomp($_);
 }

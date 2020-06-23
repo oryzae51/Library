@@ -23,30 +23,18 @@ chomp($out_dir);
 # chomp($sam_dir);
 
 #add sam folder dir to list
-my @align_data_list = ();
-push(@align_data_list, `find $align_data_dir`);
-@align_data_list = sort(@align_data_list);
-shift(@align_data_list);
-for (@align_data_list){
+my @sam_list = ();
+push(@sam_list, `find $align_data_dir`);
+@sam_list = sort(@sam_list);
+shift(@sam_list);
+for (@sam_list){
     chomp($_);
 }
-for (@align_data_list){
+for (@sam_list){
     print("$_\n");
 }
 
-#iterate @align_data_list
-
-my @sam_list = ();
-push(@sam_list, `find "$(pwd)`);#find absolute path of file
-shift(@sam_list);
-@sam_list = sort(@sam_list);
-for (@sam_list){
-    chomp($_);
-}
-for (@sam_list){
-	print("$_\n");
-}
-
+#iterate featureCounts
 foreach (@sam_list){
     my @Oname_1 = split(/\//, $_);
     print("Making counting file named $Oname_1[-1]....\n");

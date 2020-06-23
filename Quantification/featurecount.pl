@@ -24,7 +24,7 @@ chomp($out_dir);
 
 #add sam folder dir to list
 my @align_data_list = ();
-push(@align_data_list, `ls -d */`);
+push(@align_data_list, `ls $align_data_dir -d */`);
 @align_data_list = sort(@align_data_list);
 for (@align_data_list){
     chomp($_);

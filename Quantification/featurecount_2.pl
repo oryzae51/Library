@@ -40,5 +40,5 @@ foreach (@sam_list){
     print("Making counting file named $Oname_1[-1]....\n");
     print("$_\n");
     print("printing command:\nfeatureCounts -T 4 -p -a $gtf_dir -t exon -g gene id -o $out_dir/$Oname_1[-1].txt $_\n\n");
-    #`featureCounts -T 4 -p -a $gtf_dir -t exon -g gene id -o $_.txt $sam_dir`;
+    `featureCounts -T 4 -p -a $gtf_dir -t exon -g gene id -o $_.txt $sam_dir`;
 }

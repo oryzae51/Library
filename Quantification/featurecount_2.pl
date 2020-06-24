@@ -24,9 +24,8 @@ chomp($out_dir);
 
 #add sam folder dir to list
 my @sam_list = ();
-push(@sam_list, `find $align_data_dir`);
+push(@sam_list, `find $align_data_dir -name "*-*" -print`);
 @sam_list = sort(@sam_list);
-shift(@sam_list);
 for (@sam_list){
     chomp($_);
 }
@@ -39,6 +38,6 @@ foreach (@sam_list){
     my @Oname_1 = split(/\//, $_);
     print("Making counting file named $Oname_1[-1]....\n");
     print("$_\n");
-    print("printing command:\nfeatureCounts -T 4 -p -a $gtf_dir -t exon -g gene id -o $out_dir/$Oname_1[-1].txt $_\n\n");
-    `featureCounts -T 4 -p -a $gtf_dir -t exon -g gene id -o $out_dir/$Oname_1[-1].txt $_`;
+    print("printing command:\nfeatureCounts -T 4 -p -a $gtf_dir -t exon -g gene_id -o $out_dir/$Oname_1[-1].txt $_\n\n");
+    #`featureCounts -T 4 -p -a $gtf_dir -t exon -g gene id -o $out_dir/$Oname_1[-1].txt $_`;
 }

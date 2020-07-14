@@ -27,7 +27,7 @@ for (@file_list){
     print($_);
 }
 
-for (my $i=0; $i<$#file_list+1; $i+=2){
+for (my $i=0; $i<$#file_list+1; $i++){
     my @Oname_1 = split(/\//, $file_list[$i]);
     my @Oname_2 = split(/_/, $Oname_1[-1]);
     print("Making alignment file named $Oname_2[0]....\n");

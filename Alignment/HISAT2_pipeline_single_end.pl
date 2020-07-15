@@ -9,7 +9,7 @@ my $hisat2_indx = <STDIN>;
 chomp($hisat2_indx); #Index file directory and basename
 my $specific_name = "*fastq.gz"; #specific_name for fastq file
 my $hit_file = <STDIN>;
-chomp($hit_file); #file directory of SAM
+chomp($hit_file); #file directory for SAM output
 
 #Extract each fastq file drictory from $fastq_dir and save to @file_list
 #my $file = `find $directory -name "*.fastq"`;

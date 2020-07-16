@@ -8,7 +8,7 @@ my $gtf_dir = <STDIN>;
 chomp($gtf_dir);
 
 #Write input align_data dir
-print("Write input align_data dir\n");
+print("Write input align_data dir\n"); 
 my $align_data_dir = <STDIN>;
 chomp($align_data_dir);
 

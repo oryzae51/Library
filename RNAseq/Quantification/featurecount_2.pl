@@ -12,6 +12,11 @@ print("Write input align_data dir\n");
 my $align_data_dir = <STDIN>;
 chomp($align_data_dir);
 
+#Write alginment data specific name
+print("Write alginment data specific name\n"); 
+my $align_spec_name = <STDIN>;
+chomp($align_spec_name);
+
 #Write output pathway you want
 print("Write output pathway you want:\n");
 my $out_dir = <STDIN>;
@@ -24,7 +29,7 @@ chomp($out_dir);
 
 #add sam folder dir to list
 my @sam_list = ();
-push(@sam_list, `find $align_data_dir -name "*-*" -print`);
+push(@sam_list, `find $align_data_dir -name "$align_spec_name" -print`);
 @sam_list = sort(@sam_list);
 for (@sam_list){
     chomp($_);

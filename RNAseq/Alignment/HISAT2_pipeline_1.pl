@@ -3,11 +3,15 @@ use strict;
 use warnings;
 
 #Write fastq file dir and index dir
+print("Write the directory of raw fastq file");
 my $directory = <STDIN>;
 chomp($directory); #raw fastq file directory
+print("Write the directory of index file and basename");
 my $hisat2_indx = <STDIN>;
 chomp($hisat2_indx); #Index file directory and basename
+print("Write the specific name for fastq file");
 my $specific_name = "*fastq.gz"; #specific_name for fastq file
+print("Write the directory of SAM files");
 my $hit_file = <STDIN>;
 chomp($hit_file); #file directory of SAM
 

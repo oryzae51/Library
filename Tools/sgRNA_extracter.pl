@@ -1,9 +1,11 @@
 #!/usr/bin/perl
-use strict;
 use warnings;
+use strict;
 
+print("sgRNA candidate list file directory: \n");
 my $candi_list = <STDIN>; #Directory of candidate list
 chomp($candi_list);
+print("output file directory: \n");
 my $sgRNA_ext = <STDIN>; #Directory of output
 chomp($sgRNA_ext);
 open(F, "$candi_list") or die "Cannot open file";
@@ -29,3 +31,5 @@ while(<F>){
 
 close(O);
 close(F);
+
+

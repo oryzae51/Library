@@ -5,9 +5,8 @@ use strict;
 print("sgRNA candidate list file directory: \n");
 my $candi_list = <STDIN>; #Directory of candidate list
 chomp($candi_list);
-print("output file directory: \n");
-my $sgRNA_ext = <STDIN>; #Directory of output
-chomp($sgRNA_ext);
+my @candi_name = split(/\./, $candi_list); #Directory of output
+my $sgRNA_ext = "$candi_name[0]"."_ext.txt";
 open(F, "$candi_list") or die "Cannot open file";
 open(O, ">$sgRNA_ext");
 my $i = 0;

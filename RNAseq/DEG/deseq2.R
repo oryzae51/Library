@@ -1,30 +1,23 @@
 ##Pull down data, data preprocessing
 #import data as datafram(df)
-setwd("~/data/quant_data/hg19")
-MLL1_1rn=read.table("MLL1-KO-RNA1.txt", sep="\t", header=TRUE) #for extranct geneid
-MLL1_1df=read.table("MLL1-KO-RNA1.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL2_1df=read.table("MLL2-KO-RNA2.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL4_1df=read.table("MLL4-KO-RNA1.txt", sep="\t", header=TRUE, row.names="Geneid")
-WT_1df=read.table("WT-HCT116-R1.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL1_2df=read.table("MLL1-KO-RNA2.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL2_2df=read.table("MLL2-KO-RNA3.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL4_2df=read.table("MLL4-KO-RNA2.txt", sep="\t", header=TRUE, row.names="Geneid")
-WT_2df=read.table("WT-HCT116-R2.txt", sep="\t", header=TRUE, row.names="Geneid")
+setwd("/Users/hmkim/data/quant_data/mm9/mm9_072120")
+MLL1_rn=read.table("SRR1030491.txt", sep="\t", header=TRUE) #for extranct geneid
+MLL1_1df=read.table("SRR1030491.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL1_2df=read.table("SRR1030500.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL1_3df=read.table("MLL4-KO-RNA1.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL1_4df=read.table("WT-HCT116-R1.txt", sep="\t", header=TRUE, row.names="Geneid")
+
 #extract read count column and integrate all samples counts in cnts
-MLL1_1 <- c(MLL1_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.MLL1.KO.RNA1)
-MLL2_1 <- c(MLL2_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.MLL2.KO.RNA2)
-MLL4_1 <- c(MLL4_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.MLL4.KO.RNA1)
-WT_1 <- c(WT_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.WT.HCT116.R1)
-MLL1_2 <- c(MLL1_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.MLL1.KO.RNA2)
-MLL2_2 <- c(MLL2_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.MLL2.KO.RNA3)
-MLL4_2 <- c(MLL4_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.MLL4.KO.RNA2)
-WT_2 <- c(WT_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.WT.HCT116.R2)
-Geneid <- c(MLL1_1rn$Geneid)
-cnts<-data.frame(MLL1_1, MLL1_2, MLL2_1, MLL2_2, MLL4_1, MLL4_2, WT_1, WT_2, Geneid, row.names = "Geneid")
-cnts <- cnts[rowSums(cnts > 1) >=8,]#drop genes with low counts, this is necessary for rld quality
+MLL1_1 <- c(MLL1_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL1test_M10.SRR1030491)
+MLL1_2 <- c(MLL1_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL1test_M10.SRR1030500)
+MLL1_3 <- c(MLL4_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.MLL4.KO.RNA1)
+MLL1_4 <- c(WT_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.WT.HCT116.R1)
+Geneid <- c(MLL1_rn$Geneid)
+cnts<-data.frame(MLL1_1, MLL1_2, Geneid, row.names = "Geneid")
+cnts <- cnts[rowSums(cnts > 1) >=2,]#drop genes with low counts, this is necessary for rld quality
 #make condition table for downstream processing
-condition <- c("MLL1", "MLL1", "MLL2", "MLL2", "MLL4", "MLL4", "WT", "WT")
-sampleName <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL4_1", "MLL4_2", "WT_1", "WT_2")
+condition <- c("MLL1_1", "MLL1_2")
+sampleName <- c("MLL1_1", "MLL1_2")
 sampleTable <- data.frame(condition, sampleName, row.names="sampleName")
 sampleTable$condition <- as.factor(sampleTable$condition)
 all(rownames(sampleTable) == colnames(cnts)) #check condition table is correct
@@ -34,7 +27,7 @@ library("DESeq2")
 dds <- DESeqDataSetFromMatrix(countData = cnts,
                               colData = sampleTable,
                               design = ~ condition)
-dds$condition <- relevel(dds$condition, ref = "WT")#Make WT sample level as reference
+dds$condition <- relevel(dds$condition, ref = "MLL1_1")#Make WT sample level as reference
 dds <- DESeq(dds)
 dds$condition #check dds
 

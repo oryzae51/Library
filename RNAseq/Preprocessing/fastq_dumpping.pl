@@ -2,18 +2,29 @@
 use warnings;
 use strict;
 
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/WT/SRR11179816`;
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/WT/SRR11179820`;
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/WT/SRR11179824`;
+#Write SRR directory
+print("Write SRR file dir:\n");
+my $srr_dir = <STDIN>;
+chomp($srr_dir);
 
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/MLL2KO/SRR11179816`;
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/MLL2KO/SRR11179820`;
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/MLL2KO/SRR11179824`;
+#find srr files
+my @srr_list = ();
+push(@srr_list, `find $srr_dir -name "SRR*" -print`);
+@srr_list = sort(@srr_list);
 
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/SuzKO/SRR11179816`;
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/SuzKO/SRR11179820`;
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/SuzKO/SRR11179824`;
+#output directory
+#Write output pathway you want
+print("Write output pathway you want:\n");
+my $out_dir = <STDIN>;
+chomp($out_dir);
 
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/AzaKO/SRR11179816`;
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/AzaKO/SRR11179820`;
-`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip --split-e /media/bm/ETL4TiB/KHM/rawdata/AzaKO/SRR11179824`;
+
+#dummping with 
+foreach (@srr_list){
+    my @Oname = split(/\//, $_);
+    my @Oname_1 = split(/\n/, $Oname[-1]);
+    print("Making counting file named $Oname_1[-1]....\n");
+    print("$_\n");
+    print("printing command:\n/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip $out_dir/$Oname_1[-1].txt\n\n");
+    #`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip $out_dir/$Oname_1[-1].txt`;
+}

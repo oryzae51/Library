@@ -4,20 +4,20 @@ setwd("/Users/hmkim/data/quant_data/mm9/mm9_072120")
 MLL1_rn=read.table("SRR1030491.txt", sep="\t", header=TRUE) #for extranct geneid
 MLL1_1df=read.table("SRR1030491.txt", sep="\t", header=TRUE, row.names="Geneid")
 MLL1_2df=read.table("SRR1030500.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL1_3df=read.table("MLL4-KO-RNA1.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL1_4df=read.table("WT-HCT116-R1.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL1_3df=read.table("SRR1030501.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL1_4df=read.table("SRR1030502.txt", sep="\t", header=TRUE, row.names="Geneid")
 
 #extract read count column and integrate all samples counts in cnts
-MLL1_1 <- c(MLL1_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL1test_M10.SRR1030491)
-MLL1_2 <- c(MLL1_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL1test_M10.SRR1030500)
-MLL1_3 <- c(MLL4_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.MLL4.KO.RNA1)
-MLL1_4 <- c(WT_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL_KO_align_hg19_M10.WT.HCT116.R1)
+nc1 <- c(MLL1_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL1test_M10.SRR1030491)
+mm1 <- c(MLL1_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL1test_M10.SRR1030500)
+nc2 <- c(MLL1_3df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL1test.temp.SRR1030501)
+mm2 <- c(MLL1_4df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL1test.temp.SRR1030502)
 Geneid <- c(MLL1_rn$Geneid)
-cnts<-data.frame(MLL1_1, MLL1_2, Geneid, row.names = "Geneid")
-cnts <- cnts[rowSums(cnts > 1) >=2,]#drop genes with low counts, this is necessary for rld quality
+cnts<-data.frame(nc1, mm1, nc2, mm2, Geneid, row.names = "Geneid")
+cnts <- cnts[rowSums(cnts > 1) >=4,]#drop genes with low counts, this is necessary for rld quality
 #make condition table for downstream processing
-condition <- c("MLL1_1", "MLL1_2")
-sampleName <- c("MLL1_1", "MLL1_2")
+condition <- c("nc", "mm", "nc", "mm")
+sampleName <- c("nc1", "mm1", "nc2", "mm2")
 sampleTable <- data.frame(condition, sampleName, row.names="sampleName")
 sampleTable$condition <- as.factor(sampleTable$condition)
 all(rownames(sampleTable) == colnames(cnts)) #check condition table is correct
@@ -27,11 +27,18 @@ library("DESeq2")
 dds <- DESeqDataSetFromMatrix(countData = cnts,
                               colData = sampleTable,
                               design = ~ condition)
-dds$condition <- relevel(dds$condition, ref = "MLL1_1")#Make WT sample level as reference
+dds$condition <- relevel(dds$condition, ref = "nc")#Make WT sample level as reference
 dds <- DESeq(dds)
 dds$condition #check dds
 
 ##Draw MA plots
+#nc vs mm
+res1 <- results(dds, contrast = c("condition", "nc", "mm"))
+resultsNames(dds)
+resLFC1 <- lfcShrink(dds, coef="condition_mm_vs_nc", type="apeglm")
+plotMA(resLFC1, ylim=c(-5, 5))
+resOrdered <- res1[order(res1$pvalue),]
+summary(res1)
 #MLL1 vs WT
 res1 <- results(dds, contrast = c("condition", "MLL1", "WT"))
 resultsNames(dds)
@@ -73,7 +80,7 @@ pheatmap(assay(ntd)[select,])
 pheatmap(assay(rld)[select,])
 
 ##PCA
-sampleDists <- dist(t(assay(rld)))
+sampleDists1 <- dist(t(assay(rld)))
 sampleDists <- dist(scale(t(assay(rld))))#recommand this for consistancy
 library("RColorBrewer")
 sampleDistMatrix <- as.matrix(sampleDists)
@@ -94,7 +101,7 @@ library("genefilter")
 #get deviation(rowVars()) from assay(rld), and get high deviation genes
 # topVarGenes <- head(order(rowVars(assay(rld)), decreasing=TRUE), 50)
 # topVarGenes <- head(order(rowVars(assay(rld)), decreasing=TRUE), 500)
-topVarGenes <- head(assay(rld), decreasing=TRUE, 100)
+topVarGenes <- head(assay(rld), decreasing=TRUE, 1000)
 #scaling dataset
 scaledata <- t(scale(t(topVarGenes))) # Centers and scales data.
 scaledata <- scaledata[complete.cases(scaledata),]
@@ -112,8 +119,9 @@ heatmap.2(topVarGenes,
           col=colorRampPalette(rev(brewer.pal(9,"RdBu")))(255)
 )
 #dev.off()#For export. Not necessary if you are using Rstudio
-write.csv(assay(rld)[topVarGenes,],file="~/data/test.csv")
+write.csv(assay(rld)[topVarGenes,],file="~/data/testasdf.csv")
 write.csv(topVarGenes,file="~/data/test.csv")
+write.csv(assay(rld),file="~/data/test.csv")
 geneex <- assay(rld)[topVarGenes, ]
 #Cluster samples to check for outlier
 TreeC = as.dendrogram(hc, methods="average")

@@ -10,6 +10,10 @@ chomp($srr_dir);
 #find srr files
 my @srr_list = ();
 push(@srr_list, `find $srr_dir -name "SRR*" -print`);
+# foreach (@srr_list){
+# 	push(@srr_list, chomp($_));
+# }
+
 @srr_list = sort(@srr_list);
 
 #output directory
@@ -21,10 +25,10 @@ chomp($out_dir);
 
 #dummping with 
 foreach (@srr_list){
-    my @Oname = split(/\//, $_);
-    my @Oname_1 = split(/\n/, $Oname[-1]);
+    my @Oname = split(/\n/, $_);
+    my @Oname_1 = split(/\//, $Oname[-1]);
     print("Making counting file named $Oname_1[-1]....\n");
     print("$_\n");
-    print("printing command:\n/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip $out_dir/$Oname_1[-1].txt\n\n");
-    `/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip $out_dir/$Oname_1[-1].txt`;
+    print("printing command:\n/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip -O $out_dir/$Oname_1[-1].txt $Oname[-1]\n\n");
+    `/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip -O $out_dir/$Oname_1[-1].txt $Oname[-1]`;
 }

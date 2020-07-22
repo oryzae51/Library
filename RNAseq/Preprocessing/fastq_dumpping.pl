@@ -26,5 +26,5 @@ foreach (@srr_list){
     print("Making counting file named $Oname_1[-1]....\n");
     print("$_\n");
     print("printing command:\n/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip $out_dir/$Oname_1[-1].txt\n\n");
-    #`/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip $out_dir/$Oname_1[-1].txt`;
+    `/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fastq-dump --gzip $out_dir/$Oname_1[-1].txt`;
 }

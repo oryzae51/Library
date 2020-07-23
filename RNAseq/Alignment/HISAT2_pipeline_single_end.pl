@@ -32,6 +32,6 @@ for (my $i=0; $i<$#file_list+1; $i++){
     my @Oname_2 = split(/\./, $Oname_1[-1]);
     print("Making alignment file named $Oname_2[0]....\n");
     print("$file_list[$i]\n");
-    print("hisat2 -x $hisat2_indx -U $file_list[$i] -S $hit_file/$Oname_2[0]\n");
-    `hisat2 -x $hisat2_indx -U $file_list[$i] -S $hit_file/$Oname_2[0]`;
+    print("hisat2 -x $hisat2_indx -p 8 -U $file_list[$i] -S $hit_file/$Oname_2[0]\n");
+    `hisat2 -x $hisat2_indx -p 8 -U $file_list[$i] -S $hit_file/$Oname_2[0]`;
 }

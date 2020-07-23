@@ -105,7 +105,13 @@ resultsNames(dds)
 resLFC1 <- lfcShrink(dds, coef="condition_MLL1k_vs_MLL1", type="apeglm")
 plotMA(resLFC1, ylim=c(-5, 5))
 resOrdered <- res1[order(res1$pvalue),]
+resOrdered2 <- res1[order(res1$log2FoldChange),]
 summary(res1)
+write.csv(as.data.frame(resOrdered), 
+          file="~/data/sigtest.csv")
+resSig <- subset(resOrdered, padj < 0.05)
+write.csv(as.data.frame(resSig), 
+          file="~/data/sigtestmll1.csv")
 
 #nc vs mm
 res1 <- results(dds, contrast = c("condition", "MLL12", "MLL12k"), alpha = 0.05)
@@ -113,9 +119,14 @@ resultsNames(dds)
 resLFC1 <- lfcShrink(dds, coef="condition_MLL12k_vs_MLL12", type="apeglm")
 plotMA(resLFC1, ylim=c(-5, 5))
 resOrdered <- res1[order(res1$pvalue),]
+resOrdered2 <- res1[order(res1$log2FoldChange),]
 summary(res1)
-idx <- identify(res1$baseMean, res1$log2FoldChange)
-rownames(res1)[idx]
+write.csv(as.data.frame(resOrdered), 
+          file="~/data/sigtest.csv")
+resSig <- subset(resOrdered, padj < 0.05)
+resSig <- subset(resOrdered2, padj < 0.05)
+write.csv(as.data.frame(resSig), 
+          file="~/data/test_lfd.csv")
 
 #nc vs mm
 res1 <- results(dds, contrast = c("condition", "MLL2", "MLL2k"), alpha = 0.05)
@@ -123,7 +134,13 @@ resultsNames(dds)
 resLFC1 <- lfcShrink(dds, coef="condition_MLL2k_vs_MLL2", type="apeglm")
 plotMA(resLFC1, ylim=c(-5, 5))
 resOrdered <- res1[order(res1$pvalue),]
+resOrdered2 <- res1[order(res1$log2FoldChange),]
 summary(res1)
+write.csv(as.data.frame(resOrdered), 
+          file="~/data/sigtest.csv")
+resSig <- subset(resOrdered, padj < 0.05)
+write.csv(as.data.frame(resSig), 
+          file="~/data/test.csv")
 
 
 

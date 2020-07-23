@@ -37,6 +37,6 @@ for (my $i=0; $i<$#file_list+1; $i+=2){
     print("Making alignment file named $Oname_2[0]....\n");
     print("$file_list[$i]\n");
     print("$file_list[$i+1]\n");
-    #print("hisat2 -x $hisat2_indx -1 $file_list[$i] -2 $file_list[$i+1] -S $hit_file/$Oname_2[0]\n");
-    `hisat2 -x $hisat2_indx -1 $file_list[$i] -2 $file_list[$i+1] -S $hit_file/$Oname_2[0]`;
+    print("hisat2 -x $hisat2_indx -p 8 -1 $file_list[$i] -2 $file_list[$i+1] -S $hit_file/$Oname_2[0]\n");
+    `hisat2 -x $hisat2_indx -p 8 -1 $file_list[$i] -2 $file_list[$i+1] -S $hit_file/$Oname_2[0]`;
 }

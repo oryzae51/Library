@@ -22,5 +22,5 @@ my $i = 0;
 foreach (@file_list) {
 	print("Quality checking of fastq file \n");
 	print("/media/bm/ETL4TiB/Tools/FastQC/fastqc -o $output_dir --noextract $_");
-	#`/media/bm/ETL4TiB/Tools/FastQC/fastqc -o '$output_dir' --noextract $_`;
+	`/media/bm/ETL4TiB/Tools/FastQC/fastqc -o '$output_dir' --noextract $_`;
 }

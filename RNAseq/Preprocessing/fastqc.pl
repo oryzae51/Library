@@ -3,9 +3,12 @@ use warnings;
 use strict;
 
 #print("Name of RAW data dir : ");
-my $fastq_dir = shift; #RAW fastq file directory
-my $output_dir = shift; #output file directory for FastQC
-my $specific_name = "*fastq.gz"; #specific_name for fastq file
+my $fastq_dir = <STDIN>; #RAW fastq file directory
+chomp($fastq_dir);
+my $output_dir = <STDIN>; #output file directory for FastQC
+chomp($output_dir);
+my $specific_name = <STDIN>; #specific_name for fastq file
+chomp($specific_name);
 #Extract each fastq file drictory from $fastq_dir and save to @file_list
 
 #Declare fastq file directory list
@@ -18,5 +21,6 @@ push(@file_list, `find $fastq_dir -name '$specific_name'`);
 my $i = 0;
 foreach (@file_list) {
 	print("Quality checking of fastq file \n");
-	`~/data/FastQC/fastqc -o '$output_dir' --noextract $_`;
+	print("/media/bm/ETL4TiB/Tools/FastQC/fastqc -o $output_dir --noextract $_");
+	#`/media/bm/ETL4TiB/Tools/FastQC/fastqc -o '$output_dir' --noextract $_`;
 }

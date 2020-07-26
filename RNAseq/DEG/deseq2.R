@@ -1,45 +1,33 @@
-##Pull down data, data preprocessing
 #import data as datafram(df)
-setwd("/Users/hmkim/data/quant_data/mm9/Mll1Mll2_072320")
-MLL1_1rn=read.table("SRR5190363.txt", sep="\t", header=TRUE)#for extract geneid
+##Pull down data, data preprocessing
+setwd("/Users/hmkim/data/quant_data/MLL3_072420")
+MLL3_11rn=read.table("SRR5664471.txt", sep="\t", header=TRUE)#for extract geneid
 
-MLL1_1df=read.table("SRR5190363.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL1_2df=read.table("SRR5190364.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL1k_1df=read.table("SRR5190365.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL1k_2df=read.table("SRR5190366.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_11df=read.table("SRR5664471.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_12df=read.table("SRR5664472.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_21df=read.table("SRR5664473.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_22df=read.table("SRR5664474.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_31df=read.table("SRR5664475.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_32df=read.table("SRR5664476.txt", sep="\t", header=TRUE, row.names="Geneid")
+WT1df=read.table("SRR5664477.txt", sep="\t", header=TRUE, row.names="Geneid")
+WT2df=read.table("SRR5664478.txt", sep="\t", header=TRUE, row.names="Geneid")
 
-MLL12_1df=read.table("SRR5190367.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL12_2df=read.table("SRR5190368.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL12k_1df=read.table("SRR5190369.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL12k_2df=read.table("SRR5190370.txt", sep="\t", header=TRUE, row.names="Geneid")
-
-MLL2_1df=read.table("SRR5190371.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL2_2df=read.table("SRR5190372.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL2k_1df=read.table("SRR5190373.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL2k_2df=read.table("SRR5190374.txt", sep="\t", header=TRUE, row.names="Geneid")
 
 #extract read count column and integrate all samples counts in cnts
-MLL1_1 <- c(MLL1_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190363)
-MLL1_2 <- c(MLL1_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190364)
-MLL1k_1 <- c(MLL1k_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190365)
-MLL1k_2 <- c(MLL1k_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190366)
-
-MLL12_1 <- c(MLL12_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190367)
-MLL12_2 <- c(MLL12_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190368)
-MLL12k_1 <- c(MLL12k_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190369)
-MLL12k_2 <- c(MLL12k_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190370)
-
-MLL2_1 <- c(MLL2_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190371)
-MLL2_2 <- c(MLL2_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190372)
-MLL2k_1 <- c(MLL2k_1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190373)
-MLL2k_2 <- c(MLL2k_2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.Mll1Mll2.SRR5190374)
-Geneid <- c(MLL1_1rn$Geneid)
-
-cnts<-data.frame(MLL1_1, MLL1_2, MLL1k_1, MLL1k_2, Geneid, row.names = "Geneid")
-cnts <- cnts[rowSums(cnts > 1) >=4,]#drop genes with low counts, this is necessary for rld quality
+MLL3_11 <- c(MLL3_11df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664471)
+MLL3_12 <- c(MLL3_12df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664472)
+MLL3_21 <- c(MLL3_21df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664473)
+MLL3_22 <- c(MLL3_22df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664474)
+MLL3_31 <- c(MLL3_31df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664475)
+MLL3_32 <- c(MLL3_32df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664476)
+WT1 <- c(WT1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664477)
+WT2 <- c(WT2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664478)
+Geneid <- c(MLL3_11rn$Geneid)
+cnts<-data.frame(MLL3_11, MLL3_12, MLL3_21, MLL3_22, MLL3_31, MLL3_32, WT1, WT2, Geneid, row.names = "Geneid")
+cnts <- cnts[rowSums(cnts > 1) >=8,]#drop genes with low counts, this is necessary for rld quality
 #make condition table for downstream processing
-condition <- c("MLL1", "MLL1", "MLL1k", "MLL1k")
-sampleName <- c("MLL1_1", "MLL1_2", "MLL1k_1", "MLL1k_2")
+condition <- c("MLL3_1", "MLL3_1", "MLL3_2", "MLL3_2", "MLL3_3", "MLL3_3", "WT", "WT")
+sampleName <- c("MLL3_11", "MLL3_12", "MLL3_21", "MLL3_22", "MLL3_31", "MLL3_32", "WT1", "WT2")
 sampleTable <- data.frame(condition, sampleName, row.names="sampleName")
 sampleTable$condition <- as.factor(sampleTable$condition)
 all(rownames(sampleTable) == colnames(cnts)) #check condition table is correct
@@ -49,58 +37,15 @@ library("DESeq2")
 dds <- DESeqDataSetFromMatrix(countData = cnts,
                               colData = sampleTable,
                               design = ~ condition)
-dds$condition <- relevel(dds$condition, ref = "MLL1")#Make WT sample level as reference
+dds$condition <- relevel(dds$condition, ref = "WT")#Make WT sample level as reference
 dds <- DESeq(dds)
 dds$condition #check dds
-
-
-cnts<-data.frame(MLL12_1, MLL12_2, MLL12k_1, MLL12k_2, Geneid, row.names = "Geneid")
-cnts <- cnts[rowSums(cnts > 1) >=4,]#drop genes with low counts, this is necessary for rld quality
-#make condition table for downstream processing
-condition <- c("MLL12", "MLL12", "MLL12k", "MLL12k")
-sampleName <- c("MLL12_1", "MLL12_2", "MLL12k_1", "MLL12k_2")
-sampleTable <- data.frame(condition, sampleName, row.names="sampleName")
-sampleTable$condition <- as.factor(sampleTable$condition)
-all(rownames(sampleTable) == colnames(cnts)) #check condition table is correct
-
-##Conduct DESeq2
-library("DESeq2")
-dds <- DESeqDataSetFromMatrix(countData = cnts,
-                              colData = sampleTable,
-                              design = ~ condition)
-dds$condition <- relevel(dds$condition, ref = "MLL12")#Make WT sample level as reference
-dds <- DESeq(dds)
-dds$condition #check dds
-
-
-
-cnts<-data.frame(MLL2_1, MLL2_2, MLL2k_1, MLL2k_2, Geneid, row.names = "Geneid")
-cnts <- cnts[rowSums(cnts > 1) >=4,]#drop genes with low counts, this is necessary for rld quality
-#make condition table for downstream processing
-condition <- c("MLL2", "MLL2", "MLL2k", "MLL2k")
-sampleName <- c("MLL2_1", "MLL2_2", "MLL2k_1", "MLL2k_2")
-sampleTable <- data.frame(condition, sampleName, row.names="sampleName")
-sampleTable$condition <- as.factor(sampleTable$condition)
-all(rownames(sampleTable) == colnames(cnts)) #check condition table is correct
-
-##Conduct DESeq2
-library("DESeq2")
-dds <- DESeqDataSetFromMatrix(countData = cnts,
-                              colData = sampleTable,
-                              design = ~ condition)
-dds$condition <- relevel(dds$condition, ref = "MLL2")#Make WT sample level as reference
-dds <- DESeq(dds)
-dds$condition #check dds
-
-
-
-
 
 
 
 ##Draw MA plots
 #nc vs mm
-res1 <- results(dds, contrast = c("condition", "MLL1", "MLL1k"), alpha = 0.05)
+res1 <- results(dds, contrast = c("condition", "MLL3_1", "WT"), alpha = 0.01)
 resultsNames(dds)
 resLFC1 <- lfcShrink(dds, coef="condition_MLL1k_vs_MLL1", type="apeglm")
 plotMA(resLFC1, ylim=c(-5, 5))
@@ -109,38 +54,10 @@ resOrdered2 <- res1[order(res1$log2FoldChange),]
 summary(res1)
 write.csv(as.data.frame(resOrdered), 
           file="~/data/sigtest.csv")
-resSig <- subset(resOrdered, padj < 0.05)
+resSig <- subset(resOrdered, pvalue < 0.01)
+resSig <- subset(resSig, log2FoldChange>1)
 write.csv(as.data.frame(resSig), 
-          file="~/data/sigtestmll1.csv")
-
-#nc vs mm
-res1 <- results(dds, contrast = c("condition", "MLL12", "MLL12k"), alpha = 0.05)
-resultsNames(dds)
-resLFC1 <- lfcShrink(dds, coef="condition_MLL12k_vs_MLL12", type="apeglm")
-plotMA(resLFC1, ylim=c(-5, 5))
-resOrdered <- res1[order(res1$pvalue),]
-resOrdered2 <- res1[order(res1$log2FoldChange),]
-summary(res1)
-write.csv(as.data.frame(resOrdered), 
-          file="~/data/sigtest.csv")
-resSig <- subset(resOrdered, padj < 0.05)
-resSig <- subset(resOrdered2, padj < 0.05)
-write.csv(as.data.frame(resSig), 
-          file="~/data/test_lfd.csv")
-
-#nc vs mm
-res1 <- results(dds, contrast = c("condition", "MLL2", "MLL2k"), alpha = 0.05)
-resultsNames(dds)
-resLFC1 <- lfcShrink(dds, coef="condition_MLL2k_vs_MLL2", type="apeglm")
-plotMA(resLFC1, ylim=c(-5, 5))
-resOrdered <- res1[order(res1$pvalue),]
-resOrdered2 <- res1[order(res1$log2FoldChange),]
-summary(res1)
-write.csv(as.data.frame(resOrdered), 
-          file="~/data/sigtest.csv")
-resSig <- subset(resOrdered, padj < 0.05)
-write.csv(as.data.frame(resSig), 
-          file="~/data/test.csv")
+          file="~/data/sigtestmll3.csv")
 
 
 
@@ -228,6 +145,17 @@ write.csv(assay(rld)[topVarGenes,],file="~/data/testasdf.csv")
 write.csv(topVarGenes,file="~/data/test.csv")
 write.csv(assay(rld),file="~/data/test.csv")
 geneex <- assay(rld)[topVarGenes, ]
+library(venn)
+library(gplots)
+
+prot1 <- read.csv("~/data/MLL3up.csv", header = FALSE)
+prot2 <- read.csv("~/data/mll3upmine.csv", header = FALSE)
+data <- list(P = prot1, M = prot2)
+
+venn(data)
+
+
+
 #Cluster samples to check for outlier
 TreeC = as.dendrogram(hc, methods="average")
 plot(TreeC, 

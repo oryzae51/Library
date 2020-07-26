@@ -122,6 +122,18 @@ heatmap.2(topVarGenes,
 write.csv(assay(rld)[topVarGenes,],file="~/data/test.csv")
 write.csv(topVarGenes,file="~/data/test.csv")
 geneex <- assay(rld)[topVarGenes, ]
+
+library(venn)
+library(gplots)
+
+prot1 <- read.csv("~/data/MLL3up.csv", header = FALSE)
+prot2 <- read.csv("~/data/mll3upmine.csv", header = FALSE)
+data <- list(P = prot1, M = prot2)
+
+venn(data)
+
+
+
 #Cluster samples to check for outlier
 TreeC = as.dendrogram(hc, methods="average")
 plot(TreeC, 

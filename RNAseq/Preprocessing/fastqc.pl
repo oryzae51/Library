@@ -21,6 +21,6 @@ push(@file_list, `find $fastq_dir -name '$specific_name'`);
 my $i = 0;
 foreach (@file_list) {
 	print("Quality checking of fastq file \n");
-	print("/media/bm/ETL4TiB/Tools/FastQC/fastqc -o $output_dir --noextract $_");
-	`/media/bm/ETL4TiB/Tools/FastQC/fastqc -o '$output_dir' --noextract $_`;
+	print("/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/FastQC/fastqc -o $output_dir --noextract $_");
+	`/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/FastQC/fastqc -o '$output_dir' --noextract $_`;
 }

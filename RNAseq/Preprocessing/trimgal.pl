@@ -25,5 +25,5 @@ foreach (@fastq_list){
     print("Making counting file named $Oname_1[-1]....\n");
     print("$_\n");
     print("printing command:\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/TrimGalore-0.6.5/trim_galore -q 28 -j 8 -o $out_dir $_\n\n");
-    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/TrimGalore-0.6.5/trim_galore -q 28 -j -o $out_dir $_`;
+    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/TrimGalore-0.6.5/trim_galore -q 28 -j 8 -o $out_dir $_`;
 }

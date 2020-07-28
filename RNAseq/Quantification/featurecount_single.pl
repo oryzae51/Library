@@ -43,6 +43,6 @@ foreach (@sam_list){
     my @Oname_1 = split(/\//, $_);
     print("Making counting file named $Oname_1[-1]....\n");
     print("$_\n");
-    print("printing command:\nfeatureCounts -Q 10 -T 4 -s 0 -a $gtf_dir -t exon -g gene_id -o $out_dir/$Oname_1[-1].txt $_\n\n");
-    `featureCounts -Q 10 -T 8 -s 0 -a $gtf_dir -t exon -g gene_id -o $out_dir/$Oname_1[-1].txt $_`;
+    print("printing command:\nfeatureCounts -Q 10 -T 4 -s 0 -a $gtf_dir -g gene_id -o $out_dir/$Oname_1[-1].txt $_\n\n");
+    `featureCounts -Q 10 -T 8 -s 0 -a $gtf_dir -o $out_dir/$Oname_1[-1].txt $_`;
 }

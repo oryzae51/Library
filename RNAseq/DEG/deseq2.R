@@ -1,6 +1,6 @@
 #import data as datafram(df)
 ##Pull down data, data preprocessing
-setwd("/Users/hmkim/data/quant_data/MLL3_072420")
+setwd("/Users/hmkim/data/quant_data/MLL3trim_072720")
 MLL3_11rn=read.table("SRR5664471.txt", sep="\t", header=TRUE)#for extract geneid
 
 MLL3_11df=read.table("SRR5664471.txt", sep="\t", header=TRUE, row.names="Geneid")
@@ -14,14 +14,14 @@ WT2df=read.table("SRR5664478.txt", sep="\t", header=TRUE, row.names="Geneid")
 
 
 #extract read count column and integrate all samples counts in cnts
-MLL3_11 <- c(MLL3_11df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664471)
-MLL3_12 <- c(MLL3_12df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664472)
-MLL3_21 <- c(MLL3_21df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664473)
-MLL3_22 <- c(MLL3_22df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664474)
-MLL3_31 <- c(MLL3_31df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664475)
-MLL3_32 <- c(MLL3_32df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664476)
-WT1 <- c(WT1df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664477)
-WT2 <- c(WT2df$X.media.bm.ETL4TiB.KHM.align_data.SAMfile.MLL3.SRR5664478)
+MLL3_11 <- c(MLL3_11df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL3tirm.SRR5664471)
+MLL3_12 <- c(MLL3_12df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL3tirm.SRR5664472)
+MLL3_21 <- c(MLL3_21df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL3tirm.SRR5664473)
+MLL3_22 <- c(MLL3_22df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL3tirm.SRR5664474)
+MLL3_31 <- c(MLL3_31df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL3tirm.SRR5664475)
+MLL3_32 <- c(MLL3_32df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL3tirm.SRR5664476)
+WT1 <- c(WT1df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL3tirm.SRR5664477)
+WT2 <- c(WT2df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL3tirm.SRR5664478)
 Geneid <- c(MLL3_11rn$Geneid)
 cnts<-data.frame(MLL3_11, MLL3_12, MLL3_21, MLL3_22, MLL3_31, MLL3_32, WT1, WT2, Geneid, row.names = "Geneid")
 cnts <- cnts[rowSums(cnts > 1) >=8,]#drop genes with low counts, this is necessary for rld quality
@@ -44,44 +44,79 @@ dds$condition #check dds
 
 
 ##Draw MA plots
-#nc vs mm
+#MLL3_1
 res1 <- results(dds, contrast = c("condition", "MLL3_1", "WT"), alpha = 0.01)
 resultsNames(dds)
-resLFC1 <- lfcShrink(dds, coef="condition_MLL1k_vs_MLL1", type="apeglm")
+resLFC1 <- lfcShrink(dds, coef="condition_MLL3_1_vs_WT", type="apeglm")
 plotMA(resLFC1, ylim=c(-5, 5))
-resOrdered <- res1[order(res1$pvalue),]
-resOrdered2 <- res1[order(res1$log2FoldChange),]
+resOrdered1p <- res1[order(res1$pvalue),]
+resOrdered1lfc <- res1[order(res1$log2FoldChange),]
 summary(res1)
-write.csv(as.data.frame(resOrdered), 
-          file="~/data/sigtest.csv")
-resSig <- subset(resOrdered, pvalue < 0.01)
-resSig <- subset(resSig, log2FoldChange>1)
-write.csv(as.data.frame(resSig), 
-          file="~/data/sigtestmll3.csv")
+#write.csv(as.data.frame(resOrdered1p), 
+#          file="~/data/sigtest1.csv")
+resSig1 <- subset(res1, padj < 0.01)
+resSig1 <- subset(resSig1, log2FoldChange>1 | log2FoldChange< -1)
+resSig1 <- subset(resSig1, log2FoldChange>1)
+write.csv(as.data.frame(resSig1), 
+          file="~/data/deg_confirm/deseq2_mine_up_down.csv")
+write.csv(as.data.frame(resSig1), 
+          file="~/data/deg_confirm/deseq2_mine_up.csv")
 
-
-
-#MLL1 vs WT
-res1 <- results(dds, contrast = c("condition", "MLL1", "WT"))
+#MLL3_2
+res2 <- results(dds, contrast = c("condition", "MLL3_2", "WT"), alpha = 0.01)
 resultsNames(dds)
-resLFC1 <- lfcShrink(dds, coef="condition_MLL1_vs_WT", type="apeglm")
-plotMA(resLFC1, ylim=c(-10, 10))
-resOrdered <- res1[order(res1$pvalue),]
-summary(res1)
-#MLL2 vs WT
-res2 <- results(dds, contrast = c("condition", "MLL2", "WT"))
-resultsNames(dds)
-resLFC2 <- lfcShrink(dds, coef="condition_MLL2_vs_WT", type="apeglm")
-plotMA(resLFC2, ylim=c(-10, 10))
-resOrdered <- res2[order(res2$pvalue),]
+resLFC2 <- lfcShrink(dds, coef="condition_MLL3_2_vs_WT", type="apeglm")
+plotMA(resLFC2, ylim=c(-5, 5))
+resOrdered2p <- res2[order(res2$pvalue),]
+resOrdered2lfc<- res2[order(res2$log2FoldChange),]
 summary(res2)
-#MLL4 vs WT
-res4 <- results(dds, contrast = c("condition", "MLL4", "WT"))
+write.csv(as.data.frame(resOrdered2p), 
+          file="~/data/sigtest2.csv")
+resSig2 <- subset(resOrdered2p, padj < 0.01)
+resSig2 <- subset(resSig2, log2FoldChange>1 | log2FoldChange< -1)
+write.csv(as.data.frame(resSig2), 
+          file="~/data/sigtestmll3trim2FDR.csv")
+
+#MLL3_1
+res3 <- results(dds, contrast = c("condition", "MLL3_3", "WT"), alpha = 0.01)
 resultsNames(dds)
-resLFC4 <- lfcShrink(dds, coef="condition_MLL4_vs_WT", type="apeglm")
-plotMA(resLFC4, ylim=c(-10, 10))
-resOrdered <- res4[order(res4$pvalue),]
-summary(res4)
+resLFC3 <- lfcShrink(dds, coef="condition_MLL3_3_vs_WT", type="apeglm")
+plotMA(resLFC3, ylim=c(-5, 5))
+resOrdered3p <- res3[order(res3$padj),]
+resOrdered3lfc <- res3[order(res3$log2FoldChange),]
+summary(res3)
+write.csv(as.data.frame(resOrdered3p), 
+          file="~/data/sigtest3.csv")
+resSig3 <- subset(resOrdered3p, padj < 0.01)
+resSig3 <- subset(resSig3, log2FoldChange > 1 | log2FoldChange < -1)
+write.csv(as.data.frame(resSig3), 
+          file="~/data/sigtestmll3trim3FDR.csv")
+
+
+
+
+
+# #MLL1 vs WT
+# res1 <- results(dds, contrast = c("condition", "MLL1", "WT"))
+# resultsNames(dds)
+# resLFC1 <- lfcShrink(dds, coef="condition_MLL1_vs_WT", type="apeglm")
+# plotMA(resLFC1, ylim=c(-10, 10))
+# resOrdered <- res1[order(res1$pvalue),]
+# summary(res1)
+# #MLL2 vs WT
+# res2 <- results(dds, contrast = c("condition", "MLL2", "WT"))
+# resultsNames(dds)
+# resLFC2 <- lfcShrink(dds, coef="condition_MLL2_vs_WT", type="apeglm")
+# plotMA(resLFC2, ylim=c(-10, 10))
+# resOrdered <- res2[order(res2$pvalue),]
+# summary(res2)
+# #MLL4 vs WT
+# res4 <- results(dds, contrast = c("condition", "MLL4", "WT"))
+# resultsNames(dds)
+# resLFC4 <- lfcShrink(dds, coef="condition_MLL4_vs_WT", type="apeglm")
+# plotMA(resLFC4, ylim=c(-10, 10))
+# resOrdered <- res4[order(res4$pvalue),]
+# summary(res4)
 
 ##Count data transformation/normalization for downstream analyze
 #Normalizae with rlog in DESeq2
@@ -123,7 +158,7 @@ library("genefilter")
 #get deviation(rowVars()) from assay(rld), and get high deviation genes
 # topVarGenes <- head(order(rowVars(assay(rld)), decreasing=TRUE), 50)
 # topVarGenes <- head(order(rowVars(assay(rld)), decreasing=TRUE), 500)
-topVarGenes <- head(assay(rld), decreasing=TRUE, 100)
+topVarGenes <- head(assay(rld), decreasing=TRUE, 1000)
 #scaling dataset
 scaledata <- t(scale(t(topVarGenes))) # Centers and scales data.
 scaledata <- scaledata[complete.cases(scaledata),]
@@ -141,16 +176,16 @@ heatmap.2(topVarGenes,
           col=colorRampPalette(rev(brewer.pal(9,"RdBu")))(255)
 )
 #dev.off()#For export. Not necessary if you are using Rstudio
-write.csv(assay(rld)[topVarGenes,],file="~/data/testasdf.csv")
-write.csv(topVarGenes,file="~/data/test.csv")
-write.csv(assay(rld),file="~/data/test.csv")
+write.csv(assay(rld)[topVarGenes,],file="~/data/testMLL3trim.csv")
+write.csv(topVarGenes,file="~/data/testMLL3trim.csv")
+write.csv(assay(rld),file="~/data/testMLL3trim.csv")
 geneex <- assay(rld)[topVarGenes, ]
 library(venn)
 library(gplots)
 
-prot1 <- read.csv("~/data/MLL3up.csv", header = FALSE)
-prot2 <- read.csv("~/data/mll3upmine.csv", header = FALSE)
-data <- list(P = prot1, M = prot2)
+prot1 <- read.csv("~/data/prot1.csv", header = FALSE)
+prot2 <- read.csv("~/data/prot2.csv", header = FALSE)
+data <- list(M = prot1, P = prot2)
 
 venn(data)
 

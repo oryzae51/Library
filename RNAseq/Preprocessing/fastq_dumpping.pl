@@ -29,6 +29,6 @@ foreach (@srr_list){
     my @Oname_1 = split(/\//, $Oname[-1]);
     print("Making counting file named $Oname_1[-1]....\n");
     print("$_\n");
-    print("printing command:\n/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fasterq-dump -e 8 -O $out_dir $Oname[-1]\n\n");
-    `/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fasterq-dump -e 8 -O $out_dir $Oname[-1]`;
+    print("printing command:\n/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fasterq-dump -e 8 --split-3 -O $out_dir $Oname[-1]\n\n");
+    `/media/bm/ETL4TiB/Tools/sratoolkit.2.10.8-ubuntu64/bin/fasterq-dump -e 8 --split-3 -O $out_dir $Oname[-1]`;
 }

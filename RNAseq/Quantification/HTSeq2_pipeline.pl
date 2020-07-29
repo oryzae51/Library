@@ -10,7 +10,7 @@ print("Write gtf directory\n");
 my $gtf_dir = <STDIN>;
 chomp($gtf_dir);
 
-print("Write outpu directory\n")
+print("Write output directory\n");
 my $output_dir = <STDIN>;
 chomp($output_dir);
 

@@ -12,7 +12,7 @@ chomp($gtf_dir);
 
 print("Write outpu directory\n")
 my $output_dir = <STDIN>;
-chomp($gtf_dir)
+chomp($gtf_dir);
 
 print("Choose number of strandedness\n
 	0 : non\n

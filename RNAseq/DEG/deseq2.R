@@ -1,6 +1,7 @@
 #import data as datafram(df)
 ##Pull down data, data preprocessing
 setwd("/Users/hmkim/data/quant_data/MLL3trim_072720")
+setwd("/Users/hmkim/data/quant_data/MLL3_s1_072820")
 MLL3_11rn=read.table("SRR5664471.txt", sep="\t", header=TRUE)#for extract geneid
 
 MLL3_11df=read.table("SRR5664471.txt", sep="\t", header=TRUE, row.names="Geneid")

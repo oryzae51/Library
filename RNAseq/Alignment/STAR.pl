@@ -39,8 +39,8 @@ for (my $i=0; $i<$#file_list+1; $i+=2){
     print("$file_list[$i]\n");
     print("$file_list[$i+1]\n");
 
-	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesCommand zcat --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]/\n");
+	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesCommand zcat --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]/$Oname_2[0]\n");
 
-    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesCommand zcat --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]/`;
+    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesCommand zcat --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]/$Oname_2[0]`;
 }
 

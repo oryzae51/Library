@@ -48,5 +48,5 @@ foreach (@sam_list){
     print("Making counting file named $Oname_1[-1]....\n");
     print("$_\n");
     print("printing command:\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/subread-2.0.1-Linux-x86_64/bin/featureCounts -Q 10 -T 8 -s $strandedness -a $gtf_dir -o $out_dir/$Oname_1[-1].txt $_\n\n");
-    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/subread-2.0.1-Linux-x86_64/bin/featureCounts -Q 10 -T 8 -s $strandedness -a $gtf_dir -o $out_dir/$Oname_1[-1].txt $_`;
+    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/subread-2.0.1-Linux-x86_64/bin/featureCounts -Q 10 -T 8 -p -s $strandedness -a $gtf_dir -o $out_dir/$Oname_1[-1].txt $_`;
 }

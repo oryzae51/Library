@@ -40,7 +40,7 @@ edge_sig <- subset(edge_sig, logFC>0)
 sum(edge_sig$FDR<0.01)
 #edge_sig <- subset(qlf.2vs1$table, FDR < 0.01)
 write.csv(as.data.frame(edge_sig), 
-          file="~/data/deg_confirm/edge_mine_up_htseq_sig_1_lfd-2.csv")
+          file="~/data/deg_confirm/edge_mine_up_fc_sig_1.csv")
 
 qlf.3vs1 <- glmQLFTest(fit, coef = 3)
 topTags(qlf.3vs1)
@@ -54,7 +54,7 @@ edge_sig <- subset(edge_sig, logFC>0)
 sum(edge_sig$FDR<0.01)
 #edge_sig <- subset(qlf.3vs1$table, FDR < 0.01)
 write.csv(as.data.frame(edge_sig), 
-          file="~/data/deg_confirm/edge_mine_up_htseq_sig_2_lfd-2.csv")
+          file="~/data/deg_confirm/edge_mine_up_fc_sig_2.csv")
 
 qlf.4vs1 <- glmQLFTest(fit, coef = 4)
 topTags(qlf.4vs1)
@@ -68,7 +68,7 @@ edge_sig <- subset(edge_sig, logFC>0)
 sum(edge_sig$FDR<0.01)
 #edge_sig <- subset(qlf.4vs1$table, FDR < 0.01)
 write.csv(as.data.frame(edge_sig), 
-          file="~/data/deg_confirm/edge_mine_up_htseq_sig_3_lfd-2.csv")
+          file="~/data/deg_confirm/edge_mine_up_fc_sig_3.csv")
 
 qlf.anova <- glmQLFTest(fit, coef = 2:4)
 topTags(qlf.anova)
@@ -103,9 +103,9 @@ prot1 <- read.csv("~/data/deg_confirm/edge_mine_up_s2_rmdot.csv", header = FALSE
 prot3 <- read.csv("~/data/deg_confirm/edge_mine_up_s2_3_rmdot.csv", header = FALSE)
 prot4 <- read.csv("~/data/deg_confirm/edge_mine_up_s2_rmdot_merge.csv", header = FALSE)
 
-prot_ht_sig1 <- read.csv("~/data/deg_confirm/edge_mine_up_htseq_sig_1_rmdot.csv", header = FALSE)
-prot_ht_sig2 <- read.csv("~/data/deg_confirm/edge_mine_up_htseq_sig_2_rmdot.csv", header = FALSE)
-prot_ht_sig3 <- read.csv("~/data/deg_confirm/edge_mine_up_htseq_sig_3_rmdot.csv", header = FALSE)
+prot_ht_sig1 <- read.csv("~/data/deg_confirm/edge_mine_up_BH/edge_mine_up_htseq_sig_1_rmdot.csv", header = FALSE)
+prot_ht_sig2 <- read.csv("~/data/deg_confirm/edge_mine_up_BH/edge_mine_up_htseq_sig_2_rmdot.csv", header = FALSE)
+prot_ht_sig3 <- read.csv("~/data/deg_confirm/edge_mine_up_BH/edge_mine_up_htseq_sig_3_rmdot.csv", header = FALSE)
 prot_ht_sig4 <- read.csv("~/data/deg_confirm/edge_mine_up_down_BH/edge_mine_up_down_htseq_sig_1_rmdot.csv", header = FALSE)
 prot_ht_sig5 <- read.csv("~/data/deg_confirm/edge_mine_up_down_BH/edge_mine_up_down_htseq_sig_2_rmdot.csv", header = FALSE)
 prot_ht_sig6 <- read.csv("~/data/deg_confirm/edge_mine_up_down_BH/edge_mine_up_down_htseq_sig_3_rmdot.csv", header = FALSE)
@@ -115,6 +115,9 @@ prot_ht_sig9 <- read.csv("~/data/deg_confirm/edge_mine_up_htseq_sig_3_lfd2.csv",
 prot_ht_sig10 <- read.csv("~/data/deg_confirm/edge_mine_up_htseq_sig_1_lfd-2.csv", header = FALSE)
 prot_ht_sig11 <- read.csv("~/data/deg_confirm/edge_mine_up_htseq_sig_2_lfd-2.csv", header = FALSE)
 prot_ht_sig12 <- read.csv("~/data/deg_confirm/edge_mine_up_htseq_sig_3_lfd-2.csv", header = FALSE)
+prot_ht_sig13 <- read.csv("~/data/deg_confirm/edge_mine_up_fc_sig_1_rmdot.csv", header = FALSE)
+prot_ht_sig14 <- read.csv("~/data/deg_confirm/edge_mine_up_fc_sig_2_rmdot.csv", header = FALSE)
+prot_ht_sig15 <- read.csv("~/data/deg_confirm/edge_mine_up_fc_sig_3_rmdot.csv", header = FALSE)
 
 prot_ht_sig_merge <- read.csv("~/data/deg_confirm/edge_mine_up_htseq_sig_merge.csv", header = FALSE)
 prot_ht_sig_anova <- read.csv("~/data/deg_confirm/edge_mine_up_htseq_sig_anova_rmdot.csv", header = FALSE)
@@ -124,6 +127,8 @@ prot_ht_sig_intersect_u_d <- as.matrix(intersect(prot_ht_sig4$V1, prot_ht_sig5$V
 prot_ht_sig_intersect_u_d <- as.matrix(intersect(prot_ht_sig_intersect_u_d, prot_ht_sig6$V1))
 prot_ht_sig_intersect_d_lfd2 <- as.matrix(intersect(prot_ht_sig10$V1, prot_ht_sig11$V1))
 prot_ht_sig_intersect_d_ldf2 <- as.matrix(intersect(prot_ht_sig_intersect_u_d, prot_ht_sig12$V1))
+prot_ht_sig_intersect_fc <- as.matrix(intersect(prot_ht_sig13$V1, prot_ht_sig14$V1))
+prot_ht_sig_intersect_fc <- as.matrix(intersect(prot_ht_sig_intersect_fc, prot_ht_sig15$V1))
 
 
 public <- read.csv("~/data/deg_confirm/edge_public_up.csv", header = FALSE)
@@ -160,7 +165,13 @@ data <- list(A = public$V1, B = prot_ht_sig_anova$V1)
 venn(data)
 data <- list(A = public$V1, B = prot_ht_sig_intersect)
 venn(data)
+data <- list(A = public$V1, B = prot_ht_sig_intersect_fc)
+venn(data)
 data <- list(A = public_u_d$V1, B = prot_ht_sig_intersect_u_d)
+venn(data)
+data <- list(A = prot_ht_sig_intersect, B = prot_ht_sig_intersect_fc)
+venn(data)
+data <- list(A = public$V1, B = prot_ht_sig_intersect)
 venn(data)
 
 data <- list(KHM_pipeline_edge = prot1$V1, Public_pipeline_edge_up = prot3$V1)

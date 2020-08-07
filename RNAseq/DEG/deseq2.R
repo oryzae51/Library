@@ -3,6 +3,7 @@
 setwd("/Users/hmkim/data/quant_data/MLL3trim_072720")
 setwd("/Users/hmkim/data/quant_data/MLL3_s1_072820")
 setwd("/Users/hmkim/data/quant_data/MLL-KO_073120")
+setwd("/Users/hmkim/data/quant_data/LJK")
 MLL1_1rn=read.table("MLL1-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE)#for extract geneid
 
 MLL1_1df=read.table("MLL1-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")

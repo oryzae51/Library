@@ -10,12 +10,11 @@ my $i = 0;
 while(<F>){
 	chomp;	
 	my @line = split(/"/, $_);
-	my @line = split(/\./, $line[2]);
-	@line = split(/"/, $line[0]);
+	@line = split(/\./, $line[3]);
 	# print("@line\n");
 	# print("@line\n");
 	#print O "$line[0]\n";
-	print O "$line[1]\n";
+	print O "$line[0]\n";
 	# print("$_\n");
 	
 	# $i++;

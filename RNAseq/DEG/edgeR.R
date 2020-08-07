@@ -1,21 +1,31 @@
-MLL3_11e <- read.delim("~/data/quant_data/MLL3_htseq_072920/SRR5664471.txt", header = FALSE)
-MLL3_12e <- read.delim("~/data/quant_data/MLL3_htseq_072920/SRR5664472.txt", header = FALSE)
-MLL3_21e <- read.delim("~/data/quant_data/MLL3_htseq_072920/SRR5664473.txt", header = FALSE)
-MLL3_22e <- read.delim("~/data/quant_data/MLL3_htseq_072920/SRR5664474.txt", header = FALSE)
-MLL3_31e <- read.delim("~/data/quant_data/MLL3_htseq_072920/SRR5664475.txt", header = FALSE)
-MLL3_32e <- read.delim("~/data/quant_data/MLL3_htseq_072920/SRR5664476.txt", header = FALSE)
-WT1e <- read.delim("~/data/quant_data/MLL3_htseq_072920/SRR5664477.txt", header = FALSE)
-WT2e <- read.delim("~/data/quant_data/MLL3_htseq_072920/SRR5664478.txt", header = FALSE)
-cnts<-data.frame(MLL3_11e$V2, 
-                 MLL3_12e$V2, 
-                 MLL3_21e$V2,
-                 MLL3_22e$V2, 
-                 MLL3_31e$V2, 
-                 MLL3_32e$V2, 
-                 WT1e$V2, 
-                 WT2e$V2)
-rownames(cnts) <- c(MLL3_11e$V1)
-colnames(cnts) <- c("MLL3_11e", "MLL3_12e", "MLL3_21e", "MLL3_22e", "MLL3_31e", "MLL3_32e", "WT1e", "WT2e")
+setwd("/Users/hmkim/data/quant_data/MLL3trim_072720")
+setwd("/Users/hmkim/data/quant_data/MLL3_s1_072820")
+setwd("/Users/hmkim/data/quant_data/MLL-KO_073120")
+MLL3_11rn=read.table("MLL1-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE)#for extract geneid
+
+MLL3_11df=read.table("MLL1-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_12df=read.table("MLL1-KO-RNA2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_21df=read.table("MLL2-KO-RNA2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_22df=read.table("MLL2-KO-RNA3Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_31df=read.table("MLL4-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+MLL3_32df=read.table("MLL4-KO-RNA2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+WT1df=read.table("WT-HCT116-R1Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+WT2df=read.table("WT-HCT116-R2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+
+
+cnts<-data.frame(MLL3_11df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL1.KO.RNA1Aligned.out.sam, 
+                 MLL3_12df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL1.KO.RNA2Aligned.out.sam, 
+                 MLL3_21df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL2.KO.RNA2Aligned.out.sam,
+                 MLL3_22df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL2.KO.RNA3Aligned.out.sam, 
+                 MLL3_31df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL4.KO.RNA1Aligned.out.sam, 
+                 MLL3_32df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL4.KO.RNA2Aligned.out.sam, 
+                 WT1df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.WT.HCT116.R1Aligned.out.sam, 
+                 WT2df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.WT.HCT116.R2Aligned.out.sam)
+Geneid <- c(MLL3_11rn$Geneid)
+rownames(cnts) <- c(MLL3_11rn$Geneid)
+colnames(cnts) <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL4_1", "MLL4_2", "WT_1", "WT2")
+cnts <- cnts[rowSums(cnts > 1) >=8,]
+
 
 library(edgeR)
 group <- factor(c(2, 2, 3, 3, 4, 4, 1, 1))
@@ -40,7 +50,7 @@ edge_sig <- subset(edge_sig, logFC>0)
 sum(edge_sig$FDR<0.01)
 #edge_sig <- subset(qlf.2vs1$table, FDR < 0.01)
 write.csv(as.data.frame(edge_sig), 
-          file="~/data/deg_confirm/edge_mine_up_fc_sig_1.csv")
+          file="~/data/deg_data/MLL1vsWT_FDR001.csv")
 
 qlf.3vs1 <- glmQLFTest(fit, coef = 3)
 topTags(qlf.3vs1)
@@ -54,7 +64,7 @@ edge_sig <- subset(edge_sig, logFC>0)
 sum(edge_sig$FDR<0.01)
 #edge_sig <- subset(qlf.3vs1$table, FDR < 0.01)
 write.csv(as.data.frame(edge_sig), 
-          file="~/data/deg_confirm/edge_mine_up_fc_sig_2.csv")
+          file="~/data/deg_data/MLL2vsWT_FDR001.csv")
 
 qlf.4vs1 <- glmQLFTest(fit, coef = 4)
 topTags(qlf.4vs1)
@@ -68,7 +78,7 @@ edge_sig <- subset(edge_sig, logFC>0)
 sum(edge_sig$FDR<0.01)
 #edge_sig <- subset(qlf.4vs1$table, FDR < 0.01)
 write.csv(as.data.frame(edge_sig), 
-          file="~/data/deg_confirm/edge_mine_up_fc_sig_3.csv")
+          file="~/data/deg_data/MLL4vsWT_FDR001.csv")
 
 qlf.anova <- glmQLFTest(fit, coef = 2:4)
 topTags(qlf.anova)
@@ -88,6 +98,17 @@ write.csv(as.data.frame(edge_sig),
           file="~/data/deg_confirm/edge_mine_up_htseq_sig_anova.csv")
 write.csv(as.data.frame(qlf.anova$table), 
           file="~/data/deg_confirm/edge_htseq_sig_anova_fulldata.csv")
+
+MLL1vsWT <- read.csv("~/data/deg_data/MLL1vsWT_FDR001.csv", sep = ",", header = TRUE, row.names = "X")
+MLL2vsWT <- read.csv("~/data/deg_data/MLL2vsWT_FDR001.csv", sep = ",", header = TRUE, row.names = "X")
+MLL4vsWT <- read.csv("~/data/deg_data/MLL4vsWT_FDR001.csv", sep = ",", header = TRUE, row.names = "X")
+
+MLL1vsWT <- read.csv("~/data/deg_data/MLL1vsWT_FDR001.csv", sep = ",", header = TRUE)
+MLL2vsWT <- read.csv("~/data/deg_data/MLL2vsWT_FDR001.csv", sep = ",", header = TRUE)
+MLL4vsWT <- read.csv("~/data/deg_data/MLL4vsWT_FDR001.csv", sep = ",", header = TRUE)
+MLLintersect <- intersect(c(MLL1vsWT$X), c(MLL2vsWT$X))
+MLLintersect <- intersect(MLLintersect, c(MLL4vsWT$X))
+
 
 library(venn)
 library(gplots)

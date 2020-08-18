@@ -4,29 +4,58 @@ setwd("/Users/hmkim/data/quant_data/MLL3trim_072720")
 setwd("/Users/hmkim/data/quant_data/MLL3_s1_072820")
 setwd("/Users/hmkim/data/quant_data/MLL-KO_073120")
 setwd("/Users/hmkim/data/quant_data/LJK")
-MLL1_1rn=read.table("MLL1-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE)#for extract geneid
 
-MLL1_1df=read.table("MLL1-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL1_2df=read.table("MLL1-KO-RNA2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL2_1df=read.table("MLL2-KO-RNA2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL2_2df=read.table("MLL2-KO-RNA3Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL4_1df=read.table("MLL4-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
-MLL4_2df=read.table("MLL4-KO-RNA2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
-WT1df=read.table("WT-HCT116-R1Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
-WT2df=read.table("WT-HCT116-R2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+##Automate count data.frame 
+#Load data directory
+src_dir <- c("/Users/hmkim/data/quant_data/MLL-KO_073120")
+src_files <- list.files(src_dir)
+src_files <- src_files[!src_files %in% "summary"]
+src_files
+dirVec <- c()
+for (i in src_files){
+    direc <- paste(getwd(), "/", i, sep = "")
+    dirVec[length(dirVec) + 1] <- direc
+}
+tableList <- list()
+for (i in dirVec){
+    tableList[[length(tableList) + 1]] <- read.table(i, sep = "\t", header = TRUE)
+}
+#count dataframe
+cnts <- data.frame()
+for (i in 1:length(tableList)){
+    if (i == 1){
+        cnts <- data.frame(c(tableList[[i]][, 7]))
+    }else{
+        cnts <- cbind(cnts, c(tableList[[i]][, 7]))
+    }
+}
+rownames(cnts) <- c(tableList[[1]]$Geneid)
+cnts <- cnts[rowSums(cnts > 1) >=length(cnts),]#drop genes with low counts, this is necessary for rld quality
+names(cnts) <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL4_1", "MLL4_2", "WT1", "WT2") #change col name
 
-#extract read count column and integrate all samples counts in cnts
-MLL1_1 <- c(MLL1_1df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL1.KO.RNA1Aligned.out.sam)
-MLL1_2 <- c(MLL1_2df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL1.KO.RNA2Aligned.out.sam)
-MLL2_1 <- c(MLL2_1df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL2.KO.RNA2Aligned.out.sam)
-MLL2_2 <- c(MLL2_2df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL2.KO.RNA3Aligned.out.sam)
-MLL4_1 <- c(MLL4_1df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL4.KO.RNA1Aligned.out.sam)
-MLL4_2 <- c(MLL4_2df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL4.KO.RNA2Aligned.out.sam)
-WT1 <- c(WT1df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.WT.HCT116.R1Aligned.out.sam)
-WT2 <- c(WT2df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.WT.HCT116.R2Aligned.out.sam)
-Geneid <- c(MLL1_1rn$Geneid)
-cnts<-data.frame(MLL1_1, MLL1_2, MLL2_1, MLL2_2, MLL4_1, MLL4_2, WT1, WT2, Geneid, row.names = "Geneid")
-cnts <- cnts[rowSums(cnts > 1) >=8,]#drop genes with low counts, this is necessary for rld quality
+# MLL1_1rn=read.table("MLL1-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE)#for extract geneid
+# 
+# MLL1_1df=read.table("MLL1-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+# MLL1_2df=read.table("MLL1-KO-RNA2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+# MLL2_1df=read.table("MLL2-KO-RNA2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+# MLL2_2df=read.table("MLL2-KO-RNA3Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+# MLL4_1df=read.table("MLL4-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+# MLL4_2df=read.table("MLL4-KO-RNA2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+# WT1df=read.table("WT-HCT116-R1Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+# WT2df=read.table("WT-HCT116-R2Aligned.out.sam.txt", sep="\t", header=TRUE, row.names="Geneid")
+# 
+# #extract read count column and integrate all samples counts in cnts
+# MLL1_1 <- c(MLL1_1df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL1.KO.RNA1Aligned.out.sam)
+# MLL1_2 <- c(MLL1_2df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL1.KO.RNA2Aligned.out.sam)
+# MLL2_1 <- c(MLL2_1df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL2.KO.RNA2Aligned.out.sam)
+# MLL2_2 <- c(MLL2_2df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL2.KO.RNA3Aligned.out.sam)
+# MLL4_1 <- c(MLL4_1df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL4.KO.RNA1Aligned.out.sam)
+# MLL4_2 <- c(MLL4_2df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.MLL4.KO.RNA2Aligned.out.sam)
+# WT1 <- c(WT1df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.WT.HCT116.R1Aligned.out.sam)
+# WT2 <- c(WT2df$X.media.bm.790240e4.2887.451f.ad02.1b19c4b4e120.KHM.align_data.SAMfile.MLL_KO_star_hg38.WT.HCT116.R2Aligned.out.sam)
+# Geneid <- c(MLL1_1rn$Geneid)
+# cnts<-data.frame(MLL1_1, MLL1_2, MLL2_1, MLL2_2, MLL4_1, MLL4_2, WT1, WT2, Geneid, row.names = "Geneid")
+
 #make condition table for downstream processing
 condition <- c("MLL1", "MLL1", "MLL2", "MLL2", "MLL4", "MLL4", "WT", "WT")
 sampleName <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL4_1", "MLL4_2", "WT1", "WT2")
@@ -245,18 +274,21 @@ topVarGenes <- head(assay(rld), decreasing=TRUE, 1000)
 #scaling dataset
 scaledata <- t(scale(t(topVarGenes))) # Centers and scales data.
 scaledata <- scaledata[complete.cases(scaledata),]
+scaledata <- t(scale(t(rldTable)))
+scaledata <- scaledata[complete.cases(scaledata),]
 #clustering row(gene) and column(sample) with correlation analysis
 hr <- hclust(as.dist(1-cor(t(scaledata), method="pearson")), method="complete") # Cluster rows by Pearson correlation.
 hc <- hclust(as.dist(1-cor(scaledata, method="spearman")), method="complete") # Clusters columns by Spearman correlation.
 #pdf("~/data/asdfasdfasdftest.pdf")#For export. Not necessary if you are using Rstudio
-heatmap.2(topVarGenes,
+heatmap.2(rldTable,
           Rowv=as.dendrogram(hr), 
           Colv=as.dendrogram(hc),
           scale="row",
           trace="none",
-          dendrogram="both",
+          dendrogram="col",
           cexRow = 0.4,
-          col=colorRampPalette(rev(brewer.pal(9,"RdBu")))(255)
+          col=colorRampPalette(rev(brewer.pal(9,"RdBu")))(255), 
+          labRow = NA
 )
 #dev.off()#For export. Not necessary if you are using Rstudio
 write.csv(assay(rld)[topVarGenes,],file="~/data/testMLL3trim.csv")

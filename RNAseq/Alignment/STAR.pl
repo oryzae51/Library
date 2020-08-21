@@ -14,7 +14,7 @@ my $specific_name = <STDIN>; #specific_name for fastq file
 chomp($specific_name);
 print("Write the file directory for SAM output :\n");
 my $hit_file = <STDIN>;
-chomp($hit_file); #file directory for SAM output
+chomp($hit_file); #file directory for saveM output
 
 #Extract each fastq file drictory from $fastq_dir and save to @file_list
 #my $file = `find $directory -name "*.fastq"`;

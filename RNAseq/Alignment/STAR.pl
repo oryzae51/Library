@@ -20,8 +20,8 @@ my $zipcon = <STDIN>;
 chomp($zipcon);
 print("single end: 0, pair-end: 1\m");
 my $paircon = <STDIN>;
-chomp($paircon)
-my $con = $paircon.$zipcon
+chomp($paircon);
+my $con = $paircon.$zipcon;
 
 #Extract each fastq file drictory from $fastq_dir and save to @file_list
 #my $file = `find $directory -name "*.fastq"`;

@@ -4,10 +4,12 @@ setwd("/Users/hmkim/data/quant_data/MLL3trim_072720")
 setwd("/Users/hmkim/data/quant_data/MLL3_s1_072820")
 setwd("/Users/hmkim/data/quant_data/MLL-KO_073120")
 setwd("/Users/hmkim/data/quant_data/LJK")
+setwd("/Users/hmkim/data/quant_data/MLL3_star_confirm_082320")
 
 ##Automate count data.frame 
 #Load data directory
-src_dir <- c("/Users/hmkim/data/quant_data/MLL-KO_073120")
+src_dir <- c()
+src_dir <- c("/Users/hmkim/data/quant_data/MLL3_star_confirm_082320")
 src_files <- list.files(src_dir)
 src_files <- src_files[!src_files %in% "summary"]
 src_files
@@ -32,6 +34,7 @@ for (i in 1:length(tableList)){
 rownames(cnts) <- c(tableList[[1]]$Geneid)
 cnts <- cnts[rowSums(cnts > 1) >=length(cnts),]#drop genes with low counts, this is necessary for rld quality
 names(cnts) <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL4_1", "MLL4_2", "WT1", "WT2") #change col name
+names(cnts) <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL3_1", "MLL3_2", "WT1", "WT2") #change col name
 
 # MLL1_1rn=read.table("MLL1-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE)#for extract geneid
 # 
@@ -59,6 +62,8 @@ names(cnts) <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL4_1", "MLL4_2", "WT
 #make condition table for downstream processing
 condition <- c("MLL1", "MLL1", "MLL2", "MLL2", "MLL4", "MLL4", "WT", "WT")
 sampleName <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL4_1", "MLL4_2", "WT1", "WT2")
+condition <- c("MLL1", "MLL1", "MLL2", "MLL2", "MLL3", "MLL3", "WT", "WT")
+sampleName <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL3_1", "MLL3_2", "WT1", "WT2")
 sampleTable <- data.frame(condition, sampleName, row.names="sampleName")
 sampleTable$condition <- as.factor(sampleTable$condition)
 all(rownames(sampleTable) == colnames(cnts)) #check condition table is correct

@@ -9,7 +9,7 @@ setwd("/Users/hmkim/data/quant_data/MLL3_star_confirm_082320")
 ##Automate count data.frame 
 #Load data directory
 src_dir <- c()
-src_dir <- c("/Users/hmkim/data/quant_data/MLL3_star_confirm_082320")
+src_dir <- c("/Users/hmkim/data/quant_data/MLL-KO_073120")
 src_files <- list.files(src_dir)
 src_files <- src_files[!src_files %in% "summary"]
 src_files
@@ -92,22 +92,24 @@ plotMA(resLFC_MLL1, ylim=c(-5, 5))
 summary(resLFC_MLL1)
 resLFC_MLL1 <- subset(resLFC_MLL1, padj<0.01)
 summary(resLFC_MLL1)
-resLFC_MLL1 <- subset(resLFC_MLL1, log2FoldChange > 1)
-summary(resLFC_MLL1)
-resLFC_MLL1 <- subset(resLFC_MLL1, log2FoldChange < -1)
-summary(resLFC_MLL1_lfc_down2)
+resLFC_MLL1_up <- subset(resLFC_MLL1, log2FoldChange > 0)
+summary(resLFC_MLL1_up)
+resLFC_MLL1_down <- subset(resLFC_MLL1, log2FoldChange < 0)
+summary(resLFC_MLL1_down)
 #write.csv(as.data.frame(resOrdered1p), 
 #          file="~/data/sigtest1.csv")
-write.csv(as.data.frame(resLFC_MLL1), 
-          file = "~/data/deg_data/resLFC_MLL1_padj01.csv")
-write.csv(as.data.frame(resLFC_MLL1_lfc_up2), 
-          file = "~/data/deg_data/resLFC_MLL1_padj01_up2.csv")
+write.csv(as.data.frame(resLFC_MLL1_up), 
+          file = "~/data/deg_data/public_data_confirm/resLFC_MLL1_up.csv")
+write.csv(as.data.frame(resLFC_MLL1_down), 
+          file = "~/data/deg_data/public_data_confirm/resLFC_MLL1_down.csv")
 write.csv(as.data.frame(resLFC_MLL1_lfc_down2), 
           file = "~/data/deg_data/resLFC_MLL1_padj01_down2.csv")
-MLL1_up2 <- c(rownames(resLFC_MLL1_lfc_up2))
-MLL1_down2 <- c(rownames(resLFC_MLL1_lfc_down2))
-write.csv(as.data.frame(resLFC_MLL4), 
-          file = "~/data/deg_data/MLL-KO_down/MLL4_down.csv")
+MLL1_up_rowname <- c(rownames(resLFC_MLL1_up))
+MLL1_down_rowname <- c(rownames(resLFC_MLL1_down))
+write.csv(as.data.frame(MLL1_up_rowname), 
+          file = "~/data/deg_data/public_data_confirm/MLL1_up_rowname.csv")
+write.csv(as.data.frame(MLL1_down_rowname), 
+          file = "~/data/deg_data/public_data_confirm/MLL1_down_rowname.csv")
 
 #resSig1 <- subset(res1, padj < 0.01)
 #resSig1 <- subset(resSig1, log2FoldChange>1 | log2FoldChange< -1)
@@ -126,59 +128,59 @@ plotMA(resLFC_MLL2, ylim=c(-5, 5))
 summary(resLFC_MLL2)
 resLFC_MLL2 <- subset(resLFC_MLL2, padj<0.01)
 summary(resLFC_MLL2)
-resLFC_MLL2 <- subset(resLFC_MLL2, log2FoldChange > 1)
-summary(resLFC_MLL2_lfc_up2)
-resLFC_MLL2 <- subset(resLFC_MLL2, log2FoldChange < -1)
-summary(resLFC_MLL2_lfc_down2)
+resLFC_MLL2_up <- subset(resLFC_MLL2, log2FoldChange > 0)
+summary(resLFC_MLL2_up)
+resLFC_MLL2_down <- subset(resLFC_MLL2, log2FoldChange < 0)
+summary(resLFC_MLL2_down)
 #write.csv(as.data.frame(resOrdered1p), 
 #          file="~/data/sigtest1.csv")
-write.csv(as.data.frame(resLFC_MLL2), 
-          file = "~/data/deg_data/resLFC_MLL2_padj01.csv")
-write.csv(as.data.frame(resLFC_MLL1_lfc_up2), 
-          file = "~/data/deg_data/resLFC_MLL2_padj01_up2.csv")
+write.csv(as.data.frame(resLFC_MLL2_up), 
+          file = "~/data/deg_data/public_data_confirm/resLFC_MLL2_up.csv")
+write.csv(as.data.frame(resLFC_MLL2_down), 
+          file = "~/data/deg_data/public_data_confirm/resLFC_MLL2_down.csv")
 write.csv(as.data.frame(resLFC_MLL1_lfc_down2), 
           file = "~/data/deg_data/resLFC_MLL2_padj01_down2.csv")
-MLL2_up2 <- c(rownames(resLFC_MLL2_lfc_up2))
-MLL2_down2 <- c(rownames(resLFC_MLL2_lfc_down2))
-write.csv(as.data.frame(MLL2_up2), 
-          file = "~/data/deg_data/MLL2_up2_list.csv")
-write.csv(as.data.frame(MLL2_down2), 
-          file = "~/data/deg_data/MLL2_down2_list.csv")
+MLL2_up_rowname <- c(rownames(resLFC_MLL2_up))
+MLL2_down_rowname <- c(rownames(resLFC_MLL2_down))
+write.csv(as.data.frame(MLL2_up_rowname), 
+          file = "~/data/deg_data/public_data_confirm/MLL2_up_rowname.csv")
+write.csv(as.data.frame(MLL2_down_rowname), 
+          file = "~/data/deg_data/public_data_confirm/MLL2_down_rowname.csv")
 #resSig1 <- subset(res1, padj < 0.01)
 #resSig1 <- subset(resSig1, log2FoldChange>1 | log2FoldChange< -1)
 #resSig1 <- subset(resSig1, log2FoldChange>1)
 
 
 #MLL4-KO
-res_MLL4 <- results(dds, contrast = c("condition", "MLL4", "WT"), alpha = 0.01)
+res_MLL3 <- results(dds, contrast = c("condition", "MLL3", "WT"), alpha = 0.01)
 resultsNames(dds)
-resLFC_MLL4 <- lfcShrink(dds, coef="condition_MLL4_vs_WT", type="apeglm", res=res_MLL4)
-plotMA(resLFC_MLL4, ylim=c(-5, 5))
+resLFC_MLL3 <- lfcShrink(dds, coef="condition_MLL3_vs_WT", type="apeglm", res=res_MLL4)
+plotMA(resLFC_MLL3, ylim=c(-5, 5))
 #resOrdered_lfc_MLL4 <- resLFC_MLL4[order(resLFC_MLL4$padj),]
 #resOrdered_MLL1_pval <- res_MLL1[order(res_MLL1$pvalue),]
 #resOrdered_MLL1_lfc <- res1[order(res1$log2FoldChange),]
 #summary(res_MLL1)
-summary(resLFC_MLL4)
-resLFC_MLL4 <- subset(resLFC_MLL4, padj<0.01)
-summary(resLFC_MLL4)
-resLFC_MLL4 <- subset(resLFC_MLL4, log2FoldChange > 1)
-summary(resLFC_MLL4_lfc_up2)
-resLFC_MLL4 <- subset(resLFC_MLL4, log2FoldChange < -1)
-summary(resLFC_MLL4_lfc_down2)
+summary(resLFC_MLL3)
+resLFC_MLL3 <- subset(resLFC_MLL3, padj<0.01)
+summary(resLFC_MLL3)
+resLFC_MLL3_up <- subset(resLFC_MLL3, log2FoldChange > 0)
+summary(resLFC_MLL3_up)
+resLFC_MLL3_down <- subset(resLFC_MLL3, log2FoldChange < 0)
+summary(resLFC_MLL3_down)
 #write.csv(as.data.frame(resOrdered1p), 
 #          file="~/data/sigtest1.csv")
-write.csv(as.data.frame(resLFC_MLL4), 
-          file = "~/data/deg_data/resLFC_MLL4_padj01.csv")
-write.csv(as.data.frame(resLFC_MLL4_lfc_up2), 
-          file = "~/data/deg_data/resLFC_MLL4_padj01_up2.csv")
+write.csv(as.data.frame(resLFC_MLL3_up), 
+          file = "~/data/deg_data/public_data_confirm/resLFC_MLL3_up.csv")
+write.csv(as.data.frame(resLFC_MLL3_down), 
+          file = "~/data/deg_data/public_data_confirm/resLFC_MLL3_down.csv")
 write.csv(as.data.frame(resLFC_MLL4_lfc_down2), 
           file = "~/data/deg_data/resLFC_MLL4_padj01_down2.csv")
-MLL4_up2 <- c(rownames(resLFC_MLL4_lfc_up2))
-MLL4_down2 <- c(rownames(resLFC_MLL4_lfc_down2))
-write.csv(as.data.frame(MLL4_up2), 
-          file = "~/data/deg_data/MLL4_up2_list.csv")
-write.csv(as.data.frame(MLL4_down2), 
-          file = "~/data/deg_data/MLL4_down2_list.csv")
+MLL3_up_rowname <- c(rownames(resLFC_MLL3_up))
+MLL3_down_rowname <- c(rownames(resLFC_MLL3_down))
+write.csv(as.data.frame(MLL3_up_rowname), 
+          file = "~/data/deg_data/public_data_confirm/MLL3_up_rowname.csv")
+write.csv(as.data.frame(MLL3_down_rowname), 
+          file = "~/data/deg_data/public_data_confirm/MLL3_down_rowname.csv")
 #resSig1 <- subset(res1, padj < 0.01)
 #resSig1 <- subset(resSig1, log2FoldChange>1 | log2FoldChange< -1)
 #resSig1 <- subset(resSig1, log2FoldChange>1)
@@ -202,8 +204,11 @@ MLL4_KO_diff_up2 <- setdiff(MLL4_KO_diff_up2, MLL2_up2)
 MLL4_KO_diff_down2 <- setdiff(MLL4_down2, MLL1_down2)
 MLL4_KO_diff_down2 <- setdiff(MLL4_KO_diff_down2, MLL2_down2)
 
-MLL_KO_intersect_down2 <- intersect(MLL1_down2, MLL2_down2)
-MLL_KO_intersect_down2 <- intersect(MLL_KO_intersect_down2, MLL4_down2)
+MLL_KO_intersect_down <- intersect(MLL1_down_rowname, MLL2_down_rowname)
+MLL_KO_intersect_down <- intersect(MLL_KO_intersect_down, MLL3_down_rowname)
+MLL_KO_intersect_up <- intersect(MLL1_up_rowname, MLL2_up_rowname)
+MLL_KO_intersect_up <- intersect(MLL_KO_intersect_up, MLL3_up_rowname)
+
 
 write.csv(as.data.frame(MLL1_KO_diff_up2), 
           file = "~/data/deg_data/MLL1_KO_diff_up2.csv")
@@ -227,13 +232,33 @@ names(resLFC_MLL2df)[1] = c("Geneid")
 resLFC_MLL4df <- read.csv("~/data/deg_data/resLFC_MLL4_padj01.csv", header = TRUE, sep = ",")
 names(resLFC_MLL4df)[1] = c("Geneid")
 
+up_public <- read.csv("~/data/deg_data/public_data_confirm/up_public.csv", header = F, sep = ",")
+up_public <- c(up_public$V1)
+down_public <- read.csv("~/data/deg_data/public_data_confirm/down_public.csv", header = F, sep = ",")
+down_public <- c(down_public$V1)
+up_inter_sym <- read.csv("~/data/deg_data/public_data_confirm/MLL_KO_intersect_up_genesym.csv", header = F, sep = ",")
+up_inter_sym <- c(up_inter_sym$V1)
+down_inter_sym <- read.csv("~/data/deg_data/public_data_confirm/MLL_KO_intersect_down_genesym.csv", header = F, sep = ",")
+down_inter_sym <- c(down_inter_sym$V1)
+library(gplots)
+data <- list("Public_up" = up_public, "Pipeline_up" = up_inter_sym)
+venn(data)
+data <- list("Public_down" = down_public, "Pipeline_down" = down_inter_sym)
+venn(data)
+data <- list("Public_up" = up_public, "Pipeline_down" = down_inter_sym)
+venn(data)
+data <- list("Public_down" = down_public, "Pipeline_up" = up_inter_sym)
+venn(data)
+
 MLLintersect <- intersect(c(resLFC_MLL1df$Geneid), c(resLFC_MLL2df$Geneid))
 MLLintersect <- intersect(MLLintersect, c(resLFC_MLL4df$Geneid))
 resLFC_MLLKO_padj01_intersect <- subset(resLFC_MLL1df, Geneid %in% MLLintersect)
+write.csv(as.data.frame(MLL_KO_intersect_down), 
+          file = "~/data/deg_data/public_data_confirm/MLL_KO_intersect_down.csv")
+write.csv(as.data.frame(MLL_KO_intersect_up), 
+          file = "~/data/deg_data/public_data_confirm/MLL_KO_intersect_up.csv")
 
 rld <- rlog(resLFC_MLLKO_padj01_intersect, blind = FALSE)
-
-
 
 ##Count data transformation/normalization for downstream analyze
 #Normalizae with rlog in DESeq2

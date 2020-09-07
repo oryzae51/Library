@@ -26,6 +26,7 @@ while(<F>){
 		push(@gene_list, $splitTwo[0]);
 	}
 }
+shift(@gene_list);
 foreach(@gene_list){
 	print O "$_\n";
 }

@@ -7,6 +7,9 @@ LIN_vol=read.table("/Users/hmkim/data/deg_data/MLL-KO_volcano/190524_FLAG-KLF2_r
 e2ftg <- read.table("/Users/hmkim/data/deg_data/target_gene_list/E2F.csv", sep = ",", header = FALSE)
 myctg <- read.table("/Users/hmkim/data/deg_data/target_gene_list/MYC.csv", sep = ",", header = FALSE)
 foxa1tg <- read.table("/Users/hmkim/data/deg_data/target_gene_list/FOXA1.csv", sep = ",", header = FALSE)
+gata1tg <- read.table("/Users/hmkim/data/deg_data/target_gene_list/GATA1.csv", sep = ",", header = FALSE)
+nanogtg <- read.table("/Users/hmkim/data/deg_data/target_gene_list/NANOG.csv", sep = ",", header = FALSE)
+
 MLL1_vol_sub <- subset(MLL1_vol, MLL1_vol$log2FoldChange<0)
 MLL1_DNArep_sub <- subset(MLL1_vol, MLL1_vol$Genesym %in% DNArep)
 MLL1_G2M_sub <- subset(MLL1_vol, MLL1_vol$Genesym %in% G2M)
@@ -39,6 +42,20 @@ MLL4_FOXA1TargetGenes_sub <- subset(MLL4_vol, MLL4_vol$Genesym %in% foxa1tg$V1)
 write.csv(as.data.frame(MLL1_FOXA1TargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL1_FOXA1TargetGenes_sub.csv")
 write.csv(as.data.frame(MLL2_FOXA1TargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL2_FOXA1TargetGenes_sub.csv")
 write.csv(as.data.frame(MLL4_FOXA1TargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL4_FOXA1TargetGenes_sub.csv")
+
+MLL1_GATA1TargetGenes_sub <- subset(MLL1_vol, MLL1_vol$Genesym %in% gata1tg$V1)
+MLL2_GATA1TargetGenes_sub <- subset(MLL2_vol, MLL2_vol$Genesym %in% gata1tg$V1)
+MLL4_GATA1TargetGenes_sub <- subset(MLL4_vol, MLL4_vol$Genesym %in% gata1tg$V1)
+write.csv(as.data.frame(MLL1_GATA1TargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL1_GATA1TargetGenes_sub.csv")
+write.csv(as.data.frame(MLL2_GATA1TargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL2_GATA1TargetGenes_sub.csv")
+write.csv(as.data.frame(MLL4_GATA1TargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL4_GATA1TargetGenes_sub.csv")
+
+MLL1_NANOGTargetGenes_sub <- subset(MLL1_vol, MLL1_vol$Genesym %in% nanogtg$V1)
+MLL2_NANOGTargetGenes_sub <- subset(MLL2_vol, MLL2_vol$Genesym %in% nanogtg$V1)
+MLL4_NANOGTargetGenes_sub <- subset(MLL4_vol, MLL4_vol$Genesym %in% nanogtg$V1)
+write.csv(as.data.frame(MLL1_NANOGTargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL1_NANOGTargetGenes_sub.csv")
+write.csv(as.data.frame(MLL2_NANOGTargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL2_NANOGTargetGenes_sub.csv")
+write.csv(as.data.frame(MLL4_NANOGTargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL4_NANOGTargetGenes_sub.csv")
 
 
 #FEN1;MCM7;RFC2;POLD2;POLE3;MCM5;MCM6

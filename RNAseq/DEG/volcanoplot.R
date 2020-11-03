@@ -2,7 +2,6 @@ library(EnhancedVolcano)
 MLL1_vol=read.table("/Users/hmkim/data/deg_data/MLL-KO_volcano/MLL1_volcano.csv", sep=",", header=TRUE)
 MLL2_vol=read.table("/Users/hmkim/data/deg_data/MLL-KO_volcano/MLL2_volcano.csv", sep=",", header=TRUE)
 MLL4_vol=read.table("/Users/hmkim/data/deg_data/MLL-KO_volcano/MLL4_volcano.csv", sep=",", header=TRUE)
-LIN_vol=read.table("/Users/hmkim/data/deg_data/MLL-KO_volcano/190524_FLAG-KLF2_results.csv", sep=",", header=TRUE)
 #tp53tg <- read.table("/Users/hmkim/data/deg_data/target_gene_list/tp53TargetGenes.csv", sep = ",", header = FALSE)
 e2ftg <- read.table("/Users/hmkim/data/deg_data/target_gene_list/E2F.csv", sep = ",", header = FALSE)
 myctg <- read.table("/Users/hmkim/data/deg_data/target_gene_list/MYC.csv", sep = ",", header = FALSE)
@@ -57,6 +56,15 @@ write.csv(as.data.frame(MLL1_NANOGTargetGenes_sub), file = "~/data/deg_data/MLL-
 write.csv(as.data.frame(MLL2_NANOGTargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL2_NANOGTargetGenes_sub.csv")
 write.csv(as.data.frame(MLL4_NANOGTargetGenes_sub), file = "~/data/deg_data/MLL-KO_volcano/MLL4_NANOGTargetGenes_sub.csv")
 
+MLL1_ThreeFold_down <- subset(MLL1_vol, MLL1_vol$log2FoldChange < -(log2(3)))
+MLL2_ThreeFold_down <- subset(MLL2_vol, MLL2_vol$log2FoldChange < -(log2(3)))
+MLL4_ThreeFold_down <- subset(MLL4_vol, MLL4_vol$log2FoldChange < -(log2(3)))
+library(gplots)
+data <- list("MLL1_3_down" = MLL1_ThreeFold_down$Genesym, "MLL2_3_down" = MLL2_ThreeFold_down$Genesym, "MLL4_3_down" = MLL4_ThreeFold_down$Genesym)
+venn(data)
+MLL1_KO_diff_down3 <- setdiff(MLL1_ThreeFold_down$Genesym, MLL2_ThreeFold_down$Genesym)
+MLL1_KO_diff_down3 <- setdiff(MLL1_KO_diff_down3, MLL4_ThreeFold_down$Genesym)
+write.csv(as.data.frame(MLL1_KO_diff_down3), file = "~/data/deg_data/MLL-KO_volcano/MLL1_KO_diff_down3.csv")
 
 #FEN1;MCM7;RFC2;POLD2;POLE3;MCM5;MCM6
 DNArep <- c("FEN1", "MCM7", "RFC2", "POLD2", "POLE3", "MCM6", "MCM5")

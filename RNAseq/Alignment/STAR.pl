@@ -47,8 +47,8 @@ if ($con == 00){
     my @Oname_2 = split(/_/, $Oname_1[-1]);
     print("Making alignment file named $Oname_2[0]....\n");
     print("$file_list[$i]\n");
-	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesCommand zcat --readFilesIn $file_list[$i] --outFileNamePrefix $hit_file/$Oname_2[0]\n");
-    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesCommand zcat --readFilesIn $file_list[$i] --outFileNamePrefix $hit_file/$Oname_2[0]`;
+	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 32 --genomeDir $indx --readFilesCommand zcat --readFilesIn $file_list[$i] --outFileNamePrefix $hit_file/$Oname_2[0]\n");
+    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 32 --genomeDir $indx --readFilesCommand zcat --readFilesIn $file_list[$i] --outFileNamePrefix $hit_file/$Oname_2[0]`;
 	}
 } elsif ($con == 01){
 	#single, non-zip
@@ -57,8 +57,8 @@ if ($con == 00){
     my @Oname_2 = split(/_/, $Oname_1[-1]);
     print("Making alignment file named $Oname_2[0]....\n");
     print("$file_list[$i]\n");
-	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesIn $file_list[$i] --outFileNamePrefix $hit_file/$Oname_2[0]\n");
-    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesIn $file_list[$i] --outFileNamePrefix $hit_file/$Oname_2[0]`;
+	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 32 --genomeDir $indx --readFilesIn $file_list[$i] --outFileNamePrefix $hit_file/$Oname_2[0]\n");
+    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 32 --genomeDir $indx --readFilesIn $file_list[$i] --outFileNamePrefix $hit_file/$Oname_2[0]`;
 	}
 } elsif ($con == 10){
 	#pair, gzip
@@ -68,8 +68,8 @@ if ($con == 00){
     print("Making alignment file named $Oname_2[0]....\n");
     print("$file_list[$i]\n");
     print("$file_list[$i+1]\n");
-	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesCommand zcat --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]\n");
-    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]`;
+	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 32 --genomeDir $indx --readFilesCommand zcat --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]\n");
+    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 32 --genomeDir $indx --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]`;
 	}
 } elsif ($con == 11){
 	#pair, non-zip
@@ -79,7 +79,7 @@ if ($con == 00){
     print("Making alignment file named $Oname_2[0]....\n");
     print("$file_list[$i]\n");
     print("$file_list[$i+1]\n");
-	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]\n");
-    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 8 --genomeDir $indx --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]`;
+	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 32 --genomeDir $indx --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]\n");
+    `/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 32 --genomeDir $indx --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]`;
 	}
 }

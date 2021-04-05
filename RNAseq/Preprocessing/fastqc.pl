@@ -2,11 +2,13 @@
 use warnings;
 use strict;
 
-#print("Name of RAW data dir : ");
+print("fastq raw data dir\n");
 my $fastq_dir = <STDIN>; #RAW fastq file directory
 chomp($fastq_dir);
+print("output dir\n");
 my $output_dir = <STDIN>; #output file directory for FastQC
 chomp($output_dir);
+print("specific name for fastq\n");
 my $specific_name = <STDIN>; #specific_name for fastq file
 chomp($specific_name);
 #Extract each fastq file drictory from $fastq_dir and save to @file_list

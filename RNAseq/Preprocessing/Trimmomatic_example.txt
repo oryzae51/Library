@@ -1,4 +1,21 @@
 #Trimmomatic example
-java -jar /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 32 -phred33 /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/SL/031521_revision/2_1.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/SL/031521_revision/2_2.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/SL/trimmed_fastq/2_f_paired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/SL/trimmed_fastq/2_f_unpaired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/SL/trimmed_fastq/2_r_paired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/SL/trimmed_fastq/2_r_unpaired.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+java -jar /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 32 -phred33 /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/rawdata/293T_1_1.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/rawdata/293T_1_2.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/WT1_f_paired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/WT1_f_unpaired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/WT1_r_paired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/WT1_r_unpaired.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+
+java -jar /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 32 -phred33 /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/rawdata/293T_2_1.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/rawdata/293T_2_2.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/WT2_f_paired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/WT2_f_unpaired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/WT2_r_paired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/WT2_r_unpaired.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+
+java -jar /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 32 -phred33 /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/rawdata/293T-KO_1_1.fastq.gz/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/rawdata/293T-KO_1_2.fastq.gz/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/KO1_f_paired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/KO1_f_unpaired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/KO1_r_paired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/KO1_r_unpaired.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+
+java -jar /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 32 -phred33 /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/rawdata/293T-KO_2_1.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/rawdata/293T-KO_2_2.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/KO2_f_paired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/KO2_f_unpaired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/KO2_r_paired.fastq.gz /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/HKB/trimmed_fastq/KO2_r_unpaired.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+
+
+
+
+
+
+
 
 #Read trimmomatic manual for specific arguments
+
+
+
+

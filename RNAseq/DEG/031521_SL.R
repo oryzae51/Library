@@ -1,15 +1,11 @@
 #import data as datafram(df)
 ##Pull down data, data preprocessing
-setwd("/Users/hmkim/data/quant_data/MLL3trim_072720")
-setwd("/Users/hmkim/data/quant_data/MLL3_s1_072820")
-setwd("/Users/hmkim/data/quant_data/MLL-KO_073120")
-setwd("/Users/hmkim/data/quant_data/LJK")
-setwd("/Users/hmkim/data/quant_data/MLL3_star_confirm_082320")
+setwd("/Users/hmkim/data/quant_data/031521_SL/quant_data")
 
 ##Automate count data.frame 
 #Load data directory
 src_dir <- c()
-src_dir <- c("/Users/hmkim/data/quant_data/MLL-KO_073120")
+src_dir <- c("/Users/hmkim/data/quant_data/031521_SL/quant_data")
 src_files <- list.files(src_dir)
 src_files <- src_files[!src_files %in% "summary"]
 src_files
@@ -33,8 +29,10 @@ for (i in 1:length(tableList)){
 }
 rownames(cnts) <- c(tableList[[1]]$Geneid)
 cnts <- cnts[rowSums(cnts > 1) >=length(cnts),]#drop genes with low counts, this is necessary for rld quality
-names(cnts) <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL4_1", "MLL4_2", "WT1", "WT2") #change col name
-names(cnts) <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL3_1", "MLL3_2", "WT1", "WT2") #change col name
+names(cnts) <- c("shNT_1", "Klf2_KD_1", "Snd1_KD_1", "Klf2_Snd1_dKD_1",
+                 "shNT_2", "Klf2_KD_2", "Snd1_KD_2", "Klf2_Snd1_dKD_2") #change col name
+
+
 
 # MLL1_1rn=read.table("MLL1-KO-RNA1Aligned.out.sam.txt", sep="\t", header=TRUE)#for extract geneid
 # 
@@ -60,10 +58,10 @@ names(cnts) <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL3_1", "MLL3_2", "WT
 # cnts<-data.frame(MLL1_1, MLL1_2, MLL2_1, MLL2_2, MLL4_1, MLL4_2, WT1, WT2, Geneid, row.names = "Geneid")
 
 #make condition table for downstream processing
-condition <- c("MLL1", "MLL1", "MLL2", "MLL2", "MLL4", "MLL4", "WT", "WT")
-sampleName <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL4_1", "MLL4_2", "WT1", "WT2")
-condition <- c("MLL1", "MLL1", "MLL2", "MLL2", "MLL3", "MLL3", "WT", "WT")
-sampleName <- c("MLL1_1", "MLL1_2", "MLL2_1", "MLL2_2", "MLL3_1", "MLL3_2", "WT1", "WT2")
+condition <- c("shNT", "Klf2_KD", "Snd1_KD", "Klf2_Snd1_dKD",
+               "shNT", "Klf2_KD", "Snd1_KD", "Klf2_Snd1_dKD")
+sampleName <- c("shNT_1", "Klf2_KD_1", "Snd1_KD_1", "Klf2_Snd1_dKD_1",
+                "shNT_2", "Klf2_KD_2", "Snd1_KD_2", "Klf2_Snd1_dKD_2")
 sampleTable <- data.frame(condition, sampleName, row.names="sampleName")
 sampleTable$condition <- as.factor(sampleTable$condition)
 all(rownames(sampleTable) == colnames(cnts)) #check condition table is correct
@@ -73,33 +71,43 @@ library("DESeq2")
 dds <- DESeqDataSetFromMatrix(countData = cnts,
                               colData = sampleTable,
                               design = ~ condition)
-dds$condition <- relevel(dds$condition, ref = "WT")#Make WT sample level as reference
+dds$condition <- relevel(dds$condition, ref = "shNT")#Make WT sample level as reference
 dds <- DESeq(dds)
 dds$condition #check dds
 
 
 
 ##Draw MA plots
-#MLL1-KO
-res_MLL1 <- results(dds, contrast = c("condition", "MLL1", "WT"), alpha = 0.01)
+#dKO
+res_dKD <- results(dds, 
+                   contrast = c("condition", "Klf2_Snd1_dKD", "shNT"), 
+                   alpha = 0.05)
 resultsNames(dds)
-resLFC_MLL1 <- lfcShrink(dds, coef="condition_MLL1_vs_WT", type="apeglm", res=res_MLL1)
-plotMA(resLFC_MLL1, ylim=c(-5, 5))
+resLFC_dKD <- lfcShrink(dds, 
+                        coef="condition_Klf2_Snd1_dKD_vs_shNT", 
+                        type="apeglm", 
+                        res=res_dKD)
+plotMA(resLFC_dKD, ylim=c(-8, 8))
+
 #resOrdered_lfc_MLL1 <- resLFC_MLL1[order(resLFC_MLL1$padj),]
 #resOrdered_MLL1_pval <- res_MLL1[order(res_MLL1$pvalue),]
 #resOrdered_MLL1_lfc <- res1[order(res1$log2FoldChange),]
 #summary(res_MLL1)
-summary(resLFC_MLL1)
-resLFC_MLL1 <- subset(resLFC_MLL1, padj<0.01)
-summary(resLFC_MLL1)
-resLFC_MLL1_up <- subset(resLFC_MLL1, log2FoldChange > 0)
-summary(resLFC_MLL1_up)
-resLFC_MLL1_down <- subset(resLFC_MLL1, log2FoldChange < 0)
-summary(resLFC_MLL1_down)
+summary(resLFC_dKD)
+resLFC_dKD_padj <- subset(resLFC_dKD, padj<0.05)
+summary(resLFC_dKD_padj)
+resLFC_dKD_up <- subset(resLFC_dKD, log2FoldChange > 0)
+summary(resLFC_dKD_up)
+resLFC_dKD_down <- subset(resLFC_dKD, log2FoldChange < 0)
+summary(resLFC_dKD_down)
 #write.csv(as.data.frame(resOrdered1p), 
 #          file="~/data/sigtest1.csv")
-write.csv(as.data.frame(resLFC_MLL1_up), 
-          file = "~/data/deg_data/public_data_confirm/resLFC_MLL1_up.csv")
+write.csv(as.data.frame(resLFC_dKD), 
+          file = "~/data/resLFC_dKD.csv")
+write.csv(as.data.frame(resLFC_dKD), 
+          file = "~/data/resLFC_dKD_old.csv")
+write.csv(as.data.frame(resLFC_dKD_down), 
+          file = "~/data/resLFC_dKD_old_down.csv")
 write.csv(as.data.frame(resLFC_MLL1_down), 
           file = "~/data/deg_data/public_data_confirm/resLFC_MLL1_down.csv")
 write.csv(as.data.frame(resLFC_MLL1_lfc_down2), 
@@ -116,71 +124,82 @@ write.csv(as.data.frame(MLL1_down_rowname),
 #resSig1 <- subset(resSig1, log2FoldChange>1)
 
 
-#MLL2-KO
-res_MLL2 <- results(dds, contrast = c("condition", "MLL2", "WT"), alpha = 0.01)
+#Klf2-KD
+res_Klf2 <- results(dds, 
+                    contrast = c("condition", "Klf2_KD", "shNT"), 
+                    alpha = 0.05)
 resultsNames(dds)
-resLFC_MLL2 <- lfcShrink(dds, coef="condition_MLL2_vs_WT", type="apeglm", res=res_MLL2)
-plotMA(resLFC_MLL2, ylim=c(-5, 5))
+resLFC_Klf2 <- lfcShrink(dds, 
+                         coef="condition_Klf2_KD_vs_shNT", 
+                         type="apeglm", 
+                         res=res_Klf2)
+plotMA(resLFC_Klf2, ylim=c(-5, 5))
 #resOrdered_lfc_MLL2 <- resLFC_MLL2[order(resLFC_MLL2$padj),]
 #resOrdered_MLL1_pval <- res_MLL1[order(res_MLL1$pvalue),]
 #resOrdered_MLL1_lfc <- res1[order(res1$log2FoldChange),]
 #summary(res_MLL1)
-summary(resLFC_MLL2)
-resLFC_MLL2 <- subset(resLFC_MLL2, padj<0.01)
-summary(resLFC_MLL2)
-resLFC_MLL2_up <- subset(resLFC_MLL2, log2FoldChange > 0)
-summary(resLFC_MLL2_up)
-resLFC_MLL2_down <- subset(resLFC_MLL2, log2FoldChange < 0)
-summary(resLFC_MLL2_down)
+summary(resLFC_Klf2)
+resLFC_Klf2_padj <- subset(resLFC_Klf2, padj<0.05)
+summary(resLFC_Klf2_padj)
+resLFC_Klf2_fc_up <- subset(resLFC_Klf2_padj, log2FoldChange > 0)
+resLFC_Klf2_fc_down <- subset(resLFC_Klf2_padj, log2FoldChange < 0)
+resLFC_Klf2_fc125up <- subset(resLFC_Klf2_padj, log2FoldChange > 0.32)
+summary(resLFC_Klf2_fc125up)
+resLFC_Klf2_fc125down <- subset(resLFC_Klf2_padj, log2FoldChange < -0.32)
+summary(resLFC_Klf2_fc125down)
 #write.csv(as.data.frame(resOrdered1p), 
 #          file="~/data/sigtest1.csv")
-write.csv(as.data.frame(resLFC_MLL2_up), 
-          file = "~/data/deg_data/public_data_confirm/resLFC_MLL2_up.csv")
-write.csv(as.data.frame(resLFC_MLL2_down), 
-          file = "~/data/deg_data/public_data_confirm/resLFC_MLL2_down.csv")
-write.csv(as.data.frame(resLFC_MLL1_lfc_down2), 
-          file = "~/data/deg_data/resLFC_MLL2_padj01_down2.csv")
-MLL2_up_rowname <- c(rownames(resLFC_MLL2_up))
-MLL2_down_rowname <- c(rownames(resLFC_MLL2_down))
-write.csv(as.data.frame(MLL2_up_rowname), 
-          file = "~/data/deg_data/public_data_confirm/MLL2_up_rowname.csv")
-write.csv(as.data.frame(MLL2_down_rowname), 
-          file = "~/data/deg_data/public_data_confirm/MLL2_down_rowname.csv")
+write.csv(as.data.frame(resLFC_Klf2_fc_up), 
+          file = "/Users/hmkim/data/Cowork/SL/DEG_list/fc125/resLFC_Klf2_fc_up.csv")
+write.csv(as.data.frame(resLFC_Klf2_fc_down), 
+          file = "/Users/hmkim/data/Cowork/SL/DEG_list/fc125/resLFC_Klf2_fc_down.csv")
+
+write.csv(as.data.frame(resLFC_Klf2_fc125up), 
+          file = "/Users/hmkim/data/Cowork/SL/DEG_list/fc125/resLFC_Klf2_fc125up.csv")
+write.csv(as.data.frame(resLFC_Klf2_fc125down), 
+          file = "/Users/hmkim/data/Cowork/SL/DEG_list/fc125/resLFC_Klf2_fc125down.csv")
+
+
 #resSig1 <- subset(res1, padj < 0.01)
 #resSig1 <- subset(resSig1, log2FoldChange>1 | log2FoldChange< -1)
 #resSig1 <- subset(resSig1, log2FoldChange>1)
 
 
 #MLL4-KO
-res_MLL3 <- results(dds, contrast = c("condition", "MLL3", "WT"), alpha = 0.01)
+res_Snd1 <- results(dds, 
+                    contrast = c("condition", "Snd1_KD", "shNT"), 
+                    alpha = 0.05)
 resultsNames(dds)
-resLFC_MLL3 <- lfcShrink(dds, coef="condition_MLL3_vs_WT", type="apeglm", res=res_MLL4)
-plotMA(resLFC_MLL3, ylim=c(-5, 5))
+resLFC_Snd1 <- lfcShrink(dds, 
+                         coef="condition_Snd1_KD_vs_shNT", 
+                         type="apeglm", 
+                         res=res_Snd1)
+plotMA(resLFC_Snd1, ylim=c(-5, 5))
 #resOrdered_lfc_MLL4 <- resLFC_MLL4[order(resLFC_MLL4$padj),]
 #resOrdered_MLL1_pval <- res_MLL1[order(res_MLL1$pvalue),]
 #resOrdered_MLL1_lfc <- res1[order(res1$log2FoldChange),]
 #summary(res_MLL1)
-summary(resLFC_MLL3)
-resLFC_MLL3 <- subset(resLFC_MLL3, padj<0.01)
-summary(resLFC_MLL3)
-resLFC_MLL3_up <- subset(resLFC_MLL3, log2FoldChange > 0)
-summary(resLFC_MLL3_up)
-resLFC_MLL3_down <- subset(resLFC_MLL3, log2FoldChange < 0)
-summary(resLFC_MLL3_down)
+summary(resLFC_Snd1)
+resLFC_Snd1_padj <- subset(resLFC_Snd1, padj<0.05)
+summary(resLFC_Snd1_padj)
+resLFC_Snd1_fc_up <- subset(resLFC_Snd1_padj, log2FoldChange > 0)
+resLFC_Snd1_fc_down <- subset(resLFC_Snd1_padj, log2FoldChange < 0)
+resLFC_Snd1_fc125up <- subset(resLFC_Snd1_padj, log2FoldChange > 0.32)
+summary(resLFC_Snd1_fc125up)
+resLFC_Snd1_fc125down <- subset(resLFC_Snd1_padj, log2FoldChange < -0.32)
+summary(resLFC_Snd1_fc125down)
 #write.csv(as.data.frame(resOrdered1p), 
 #          file="~/data/sigtest1.csv")
-write.csv(as.data.frame(resLFC_MLL3_up), 
-          file = "~/data/deg_data/public_data_confirm/resLFC_MLL3_up.csv")
-write.csv(as.data.frame(resLFC_MLL3_down), 
-          file = "~/data/deg_data/public_data_confirm/resLFC_MLL3_down.csv")
-write.csv(as.data.frame(resLFC_MLL4_lfc_down2), 
-          file = "~/data/deg_data/resLFC_MLL4_padj01_down2.csv")
-MLL3_up_rowname <- c(rownames(resLFC_MLL3_up))
-MLL3_down_rowname <- c(rownames(resLFC_MLL3_down))
-write.csv(as.data.frame(MLL3_up_rowname), 
-          file = "~/data/deg_data/public_data_confirm/MLL3_up_rowname.csv")
-write.csv(as.data.frame(MLL3_down_rowname), 
-          file = "~/data/deg_data/public_data_confirm/MLL3_down_rowname.csv")
+write.csv(as.data.frame(resLFC_Snd1_fc_up), 
+          file = "/Users/hmkim/data/Cowork/SL/DEG_list/fc125/resLFC_Snd1_fc_up.csv")
+write.csv(as.data.frame(resLFC_Snd1_fc_down), 
+          file = "/Users/hmkim/data/Cowork/SL/DEG_list/fc125/resLFC_Snd1_fc_down.csv")
+
+write.csv(as.data.frame(resLFC_Snd1_fc125up), 
+          file = "/Users/hmkim/data/Cowork/SL/DEG_list/fc125/resLFC_Snd1_fc125up.csv")
+write.csv(as.data.frame(resLFC_Snd1_fc125down), 
+          file = "/Users/hmkim/data/Cowork/SL/DEG_list/fc125/resLFC_Snd1_fc125down.csv")
+
 #resSig1 <- subset(res1, padj < 0.01)
 #resSig1 <- subset(resSig1, log2FoldChange>1 | log2FoldChange< -1)
 #resSig1 <- subset(resSig1, log2FoldChange>1)
@@ -232,36 +251,37 @@ names(resLFC_MLL2df)[1] = c("Geneid")
 resLFC_MLL4df <- read.csv("~/data/deg_data/resLFC_MLL4_padj01.csv", header = TRUE, sep = ",")
 names(resLFC_MLL4df)[1] = c("Geneid")
 
-################################################
+
+##################################################3
 ##venn diagram
-up_public <- read.csv("~/data/deg_data/public_data_confirm/up_public.csv", header = F, sep = ",")
-up_public <- c(up_public$V1)
-down_public <- read.csv("~/data/deg_data/public_data_confirm/down_public.csv", header = F, sep = ",")
-down_public <- c(down_public$V1)
-up_inter_sym <- read.csv("~/data/deg_data/public_data_confirm/MLL_KO_intersect_up_genesym.csv", header = F, sep = ",")
-up_inter_sym <- c(up_inter_sym$V1)
-down_inter_sym <- read.csv("~/data/deg_data/public_data_confirm/MLL_KO_intersect_down_genesym.csv", header = F, sep = ",")
-down_inter_sym <- c(down_inter_sym$V1)
+resLFC_Klf2_up_df <- as.data.frame(resLFC_Klf2_up)
+Klf2_down_geneid <- rownames(resLFC_Klf2_down)
+Klf2_up_geneid <- rownames(resLFC_Klf2_up)
+Snd1_down_geneid <- rownames(resLFC_Snd1_down)
+Snd1_up_geneid <- rownames(resLFC_Snd1_up)
+
 library(gplots)
-data <- list("Public_up" = up_public, "Pipeline_up" = up_inter_sym)
-venn(data)
-data <- list("Public_down" = down_public, "Pipeline_down" = down_inter_sym)
-venn(data)
-data <- list("Public_up" = up_public, "Pipeline_down" = down_inter_sym)
-venn(data)
-data <- list("Public_down" = down_public, "Pipeline_up" = up_inter_sym)
-venn(data)
+data_up <- list("shKlf2 up-regulated genes (n=4819)" = Klf2_up_geneid, "shSnd1 up-rgulated genes (n=4018)" = Snd1_up_geneid)
+png("~/klf2_Snd1_up_venn.png", width = 130, height = 130, units='mm', res = 1200)
+venn(data_up)
+dev.off()
+
+data_down <- list("shKlf2 down-regulated genes (n=4949)" = Klf2_down_geneid, "shSnd1 down-regulated genes (n=4166)" = Snd1_down_geneid)
+png("~/klf2_Snd1_down_venn.png", width = 130, height = 130, units='mm', res = 1200)
+venn(data_down)
+dev.off()
+
+# MLLintersect <- intersect(c(resLFC_MLL1df$Geneid), c(resLFC_MLL2df$Geneid))
+# MLLintersect <- intersect(MLLintersect, c(resLFC_MLL4df$Geneid))
+# resLFC_MLLKO_padj01_intersect <- subset(resLFC_MLL1df, Geneid %in% MLLintersect)
+# write.csv(as.data.frame(MLL_KO_intersect_down), 
+#           file = "~/data/deg_data/public_data_confirm/MLL_KO_intersect_down.csv")
+# write.csv(as.data.frame(MLL_KO_intersect_up), 
+#           file = "~/data/deg_data/public_data_confirm/MLL_KO_intersect_up.csv")
+
 ##venn diagram end
-##################################################
+################################################
 
-
-MLLintersect <- intersect(c(resLFC_MLL1df$Geneid), c(resLFC_MLL2df$Geneid))
-MLLintersect <- intersect(MLLintersect, c(resLFC_MLL4df$Geneid))
-resLFC_MLLKO_padj01_intersect <- subset(resLFC_MLL1df, Geneid %in% MLLintersect)
-write.csv(as.data.frame(MLL_KO_intersect_down), 
-          file = "~/data/deg_data/public_data_confirm/MLL_KO_intersect_down.csv")
-write.csv(as.data.frame(MLL_KO_intersect_up), 
-          file = "~/data/deg_data/public_data_confirm/MLL_KO_intersect_up.csv")
 
 rld <- rlog(resLFC_MLLKO_padj01_intersect, blind = FALSE)
 
@@ -284,18 +304,48 @@ pheatmap(assay(ntd)[select,])
 pheatmap(assay(rld)[select,])
 
 ##PCA
-sampleDists1 <- dist(t(assay(rld)))
+sampleDists <- dist(t(assay(rld)))
 sampleDists <- dist(scale(t(assay(rld))))#recommand this for consistancy
 library("RColorBrewer")
 sampleDistMatrix <- as.matrix(sampleDists)
 rownames(sampleDistMatrix) <- paste(rld$condition, sep="-")
 #colnames(sampleDistMatrix) <- NULL
 colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+png("/Users/hmkim/data/Cowork/SL/distance_heatmap.png", width = 198, height = 170, units='mm', res = 1200)
 pheatmap(sampleDistMatrix,
          clustering_distance_rows=sampleDists,
          clustering_distance_cols=sampleDists,
          col=colors)
+dev.off()
+
+sampleDists <- dist(scale(t(assay(rld))))#recommand this for consistancy
+library("RColorBrewer")
+sampleDistMatrix <- as.matrix(sampleDists)
+rownames(sampleDistMatrix) <- paste(rld$condition, sep="-")
+hrsDM <- hclust(as.dist(1-cor(t(sampleDistMatrix), method="spearman")), 
+                method="complete") # Cluster rows by Pearson correlation.
+hcsDM <- hclust(as.dist(1-cor(t(sampleDistMatrix), method="spearman")), 
+                method="complete") # Clusters columns by Spearman correlation.
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+
+png("/Users/hmkim/data/Cowork/SL/032621_Distance_heatmap_spearman.png", width = 198, height = 170, units='mm', res = 1200)
+heatmap.2(sampleDistMatrix,
+          Rowv=as.dendrogram(hrsDM), 
+          Colv=as.dendrogram(hcsDM),
+          scale = "none",
+          trace = "none", 
+          dendrogram = "both", 
+          col = colors, 
+          cexRow = 1,
+          cexCol = 0.8, margins=c(7, 5),
+          density.info="none", 
+          lhei=c(1.5, 7)
+)
+dev.off()
+
+png("/Users/hmkim/data/Cowork/SL/PCA_SL.png", width = 198, height = 170, units='mm', res = 1200)
 plotPCA(rld, intgroup=c("condition"))
+dev.off()
 
 
 ##hirachy heatmap
@@ -306,25 +356,80 @@ library("genefilter")
 # topVarGenes <- head(order(rowVars(assay(rld)), decreasing=TRUE), 50)
 # topVarGenes <- head(order(rowVars(assay(rld)), decreasing=TRUE), 500)
 topVarGenes <- head(assay(rld), decreasing=TRUE, 1000)
+topVarGenes <- head(order(assay(rld), decreasing=TRUE), 1000)
+topVarGenes <- head( order( rowVars( assay(rld) ), decreasing=TRUE ), 50)
+write.csv(as.data.frame(topVarGenes), 
+          file = "/Users/hmkim/data/Cowork/SL/032921 topVarGenes_1k.csv")
 #scaling dataset
 scaledata <- t(scale(t(topVarGenes))) # Centers and scales data.
 scaledata <- scaledata[complete.cases(scaledata),]
+
+rldTable <- assay(rld)
 scaledata <- t(scale(t(rldTable)))
 scaledata <- scaledata[complete.cases(scaledata),]
 #clustering row(gene) and column(sample) with correlation analysis
 hr <- hclust(as.dist(1-cor(t(scaledata), method="pearson")), method="complete") # Cluster rows by Pearson correlation.
 hc <- hclust(as.dist(1-cor(scaledata, method="spearman")), method="complete") # Clusters columns by Spearman correlation.
 #pdf("~/data/asdfasdfasdftest.pdf")#For export. Not necessary if you are using Rstudio
+rowlab <- read.csv("~/data/rowlab.csv", header = FALSE)
+rowlab <- rowlab$V1
+png("~/testtest.png", width = 198, height = 170, units='mm', res = 1200)
 heatmap.2(rldTable,
           Rowv=as.dendrogram(hr), 
           Colv=as.dendrogram(hc),
           scale="row",
           trace="none",
           dendrogram="col",
-          cexRow = 0.4,
+          cexRow = 1,
+          cexCol = 0.8,
           col=colorRampPalette(rev(brewer.pal(9,"RdBu")))(255), 
-          labRow = NA
+          labRow = rowlab,
+          margins=c(7, 5), 
+          density.info="none", 
+          lhei=c(1.5, 7)
 )
+
+heatmap.2(assay(rld)[ topVarGenes, ],
+          Rowv=as.dendrogram(hr), 
+          Colv=as.dendrogram(hc),
+          scale="row",
+          trace="none",
+          dendrogram="col",
+          cexRow = 1,
+          cexCol = 0.8,
+          col=colorRampPalette(rev(brewer.pal(9,"RdBu")))(255), 
+          density.info="none"
+)
+heatmap.2( assay(rld)[ topVarGenes, ], scale="row", 
+           trace="none", dendrogram="column", 
+           col = colorRampPalette( rev(brewer.pal(9, "RdBu")) )(255)
+           )
+hm <- heatmap.2( assay(rld)[ topVarGenes, ], scale="row", 
+                 trace="none", dendrogram="both", 
+                 col = colorRampPalette( rev(brewer.pal(9, "RdBu")) )(255)
+)
+hcluster <- as.hclust( hm$rowDendrogram )
+cutr_hcluster<-cutree( hcluster, h=20 )
+write.csv(as.data.frame(cutr_hcluster), 
+          file = "/Users/hmkim/data/Cowork/SL/cutr_hcluster.csv")
+dev.off()
+asdf <- assay(rld)[ topVarGenes, ]
+write.csv(as.data.frame(asdf), 
+          file = "/Users/hmkim/data/Cowork/SL/032921 topVarGenes_1k_2.csv")
+
+test <- row.names(rldTable)
+
+##########################################
+####Heatmap-pvalue
+rldTable_df <- as.data.frame(rldTable)
+head(rldTable_df)
+#Keep only the significantly differentiated genes
+resLFC_dKD_df <- as.data.frame(resLFC_dKD)
+sigGenes <- rownames(resLFC_dKD_df[resLFC_dKD_df$padj <= 0.05 & abs(resLFC_dKD_df$log2FoldChange>1),])
+rldTable_df <- rldTable_df[rldTable_df$]
+
+
+##########################################
 #dev.off()#For export. Not necessary if you are using Rstudio
 write.csv(assay(rld)[topVarGenes,],file="~/data/testMLL3trim.csv")
 write.csv(topVarGenes,file="~/data/testMLL3trim.csv")

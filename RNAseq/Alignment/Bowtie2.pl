@@ -52,17 +52,6 @@ if ($paircon == 0){
         );
     `bowtie2 -x /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/KHM/align_data/Bowtie2indx/$indx -U $file_list[$i] -S $hit_file/$Oname_2[0] --no-unal -p 8`;
 	}
-} 
-# elsif ($con == 01){
-# 	#single, non-zip
-# 	for (my $i=0; $i<$#file_list+1; $i+=1){
-#     my @Oname_1 = split(/\//, $file_list[$i]);
-#     my @Oname_2 = split(/_/, $Oname_1[-1]);
-#     print("Making alignment file named $Oname_2[0]....\n");
-#     print("$file_list[$i]\n");
-# 	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 32 --genomeDir $indx --readFilesIn $file_list[$i] --outFileNamePrefix $hit_file/$Oname_2[0]\n");
-#     `bowtie2 --runThreadN 32 --genomeDir $indx --readFilesIn $file_list[$i] --outFileNamePrefix $hit_file/$Oname_2[0]`;
-# 	}
 } elsif ($paircon == 1){
 	#pair
 	for (my $i=0; $i<$#file_list+1; $i+=2){
@@ -75,15 +64,4 @@ if ($paircon == 0){
     `bowtie2 -x /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/KHM/align_data/Bowtie2indx/$indx -1 $file_list[$i] -2 $file_list[$i+1] -S $hit_file/$Oname_2[0] --no-unal -p 8`;
 	}
 } 
-# elsif ($con == 11){
-# 	#pair, non-zip
-# 	for (my $i=0; $i<$#file_list+1; $i+=2){
-#     my @Oname_1 = split(/\//, $file_list[$i]);
-#     my @Oname_2 = split(/_/, $Oname_1[-1]);
-#     print("Making alignment file named $Oname_2[0]....\n");
-#     print("$file_list[$i]\n");
-#     print("$file_list[$i+1]\n");
-# 	print("printing command:\n\n/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/STAR-2.7.5a/bin/Linux_x86_64/STAR --runThreadN 32 --genomeDir $indx --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]\n");
-#     `bowtie2 --runThreadN 32 --genomeDir $indx --readFilesIn $file_list[$i] $file_list[$i+1] --outFileNamePrefix $hit_file/$Oname_2[0]`;
-# 	}
-# }
+

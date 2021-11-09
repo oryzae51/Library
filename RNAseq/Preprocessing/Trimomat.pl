@@ -15,7 +15,7 @@ chomp($specific_name);
 
 #Declare fastq file directory list
 my @file_list = ();
-push(@file_list, `find $fastq_dir -name '$specific_name'`);
+push(@file_list, chomp(`find $fastq_dir -name '$specific_name'`));
 @file_list = sort(@file_list); #sort in suffix
 
 #Iterate each file in @file_list and run fastq

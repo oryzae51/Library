@@ -25,7 +25,7 @@ for (my $i=0; $i<$#file_list+1; $i+=2) {
     print("File1: $file_list[$i]\nFile2: $file_list[$i+1]\n");
     my @Oname_1 = split(/\//, $file_list[$i]);
     my @Oname_1_str = split(/\./, $Oname_1[-1]);
-    my @Oname_2 = split(/\//, $file_list[$i]);
+    my @Oname_2 = split(/\//, $file_list[$i+1]);
     my @Oname_2_str = split(/\./, $Oname_2[-1]);
 
     print("$Oname_1_str[0]\n$Oname_2_str[0]\n");

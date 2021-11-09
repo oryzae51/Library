@@ -22,7 +22,7 @@ push(@file_list, `find $fastq_dir -name '$specific_name'`);
 
 my $i = 0;
 for (my $i=0; $i<$#file_list+1; $i+=2) {
-    print("$file_list[$i]\n$file_list[$i+1]\n");
+    print("File1: $file_list[$i]\nFile2: $file_list[$i+1]\n");
     my @Oname_1 = split(/\//, $file_list[$i]);
     my @Oname_1_str = split(/./, $Oname_1[-1]);
     my @Oname_2 = split(/\//, $file_list[$i]);

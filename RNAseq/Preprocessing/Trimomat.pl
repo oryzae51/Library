@@ -40,5 +40,5 @@ for (my $i=0; $i<$#file_list+1; $i+=2) {
         $output_dir/$Oname_2_str[0]_r_paired.fastq.gz 
         $output_dir/$Oname_2_str[0]_r_unpaired.fastq.gz 
         ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36\n");
-    `java -jar /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 32 -phred33 $file_list[$i] $file_list[$i+1] $output_dir/$Oname_1_str[0]_f_paired.fastq.gz $output_dir/$Oname_1_str[0]_f_unpaired.fastq.gz $output_dir/$Oname_2_str[0]_r_paired.fastq.gz $output_dir/$Oname_2_str[0]_r_unpaired.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36`;
+    `java -jar /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 32 -phred33 $file_list[$i] $file_list[$i+1] $output_dir/$Oname_1_str[0]_f_paired.fastq.gz $output_dir/$Oname_1_str[0]_f_unpaired.fastq.gz $output_dir/$Oname_2_str[0]_r_paired.fastq.gz $output_dir/$Oname_2_str[0]_r_unpaired.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 >> 110921_trim_log.txt`;
 }

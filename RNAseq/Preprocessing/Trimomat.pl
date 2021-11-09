@@ -25,6 +25,9 @@ for (my $i=0; $i<$#file_list+1; $i+=2) {
     print("$file_list[$i]\n$file_list[$i+1]\n");
     my @Oname_1 = split(/\//, $file_list[$i]);
     my @Oname_1_str = split(/./, $Oname_1[-1]);
+    my @Oname_2 = split(/\//, $file_list[$i]);
+    my @Oname_2_str = split(/./, $Oname_2[-1]);
+
     print("$Oname_1_str[0]\n$Oname_2_str[0]\n");
     print("Trim-O-mating.........\nForward specific name : $Oname_1_str[0] \nReverse specific name : $Oname_2_str[0] \n");
     print("java -jar /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/Tools/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 32 -phred33 
@@ -42,5 +45,5 @@ for (my $i=0; $i<$#file_list+1; $i+=2) {
         $output_dir/$Oname_1_str[0]_f_unpaired.fastq.gz 
         $output_dir/$Oname_2_str[0]_r_paired.fastq.gz 
         $output_dir/$Oname_2_str[0]_r_unpaired.fastq.gz 
-        ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
+        ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36';
 }

@@ -1,0 +1,11 @@
+#Bam sorting
+samtools sort -@ 4 -m 8G aligned.bam aligned.sorted
+
+#Calculate average coverage from bam files
+samtools depth  *bamfile*  |  awk '{sum+=$3} END { print "Average = ",sum/REF_total_length}'
+
+#Calculate REF_total_length in sorted bam files
+samtools view -H HeLaS3-FD-MLL2_1_duprm.sorted.bam | grep -P '^@SQ' | cut -f 3 -d ':' | awk '{sum+=$1} END {print sum}'
+
+#Total Read Depth
+Average_depth(or caverage) * REF_total_length

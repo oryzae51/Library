@@ -9,3 +9,5 @@ samtools view -H HeLaS3-FD-MLL2_1_duprm.sorted.bam | grep -P '^@SQ' | cut -f 3 -
 
 #Total Read Depth
 Average_depth(or caverage) * REF_total_length
+
+samtools sort -@ 4 -m 4G aligned.bam | samtools depth - | awk '{sum+=$3} END { print "Average = ",sum/REF_total_length}'

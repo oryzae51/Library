@@ -5,11 +5,7 @@ use warnings;
 #Project directory
 print("Write the project directory :\n");
 my $p_directory = <STDIN>;
-#Write fastq file dir and index dir
-print("Write fastq file dir :\n");
-my $directory = <STDIN>;
-chomp($directory); #raw fastq file directory
-print("Write index file dir: \n");
+
 my $indx = <STDIN>;
 chomp($indx); #Index file directory and basename
 print("Write the basename of files :\n");

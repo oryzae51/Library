@@ -25,7 +25,7 @@ print("$con\n");
 #my @file_list = split(/\n/, $file);
 #Declare fastq file directory list
 my @file_list = ();
-push(@file_list, `find $directory -name '$specific_name'`);
+push(@file_list, `find $dp_irectory/trimmed -name '$specific_name'`);
 @file_list = sort(@file_list); #sort in suffix
 #shift(@file_list);
 #check if the @file_list is made correctly

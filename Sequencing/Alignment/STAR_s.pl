@@ -7,7 +7,7 @@ print("Write fastq file dir :\n");
 my $directory = <STDIN>;
 chomp($directory); #raw fastq file directory
 print("Write index file dir: \n");
-my $indx = "/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/gtf/gencode.v34.annotation.gtf">;
+my $indx = "/media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/gtf/gencode.v34.annotation.gtf";
 chomp($indx); #Index file directory and basename
 print("Write the basename of files :\n");
 my $specific_name = "*.fastq.gz"; #specific_name for fastq file

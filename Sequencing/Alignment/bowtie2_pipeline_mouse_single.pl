@@ -39,5 +39,5 @@ for (my $i=0; $i<$#file_list+1; $i+=1){
     my @Oname_2 = split(/\.fastq\./, $Oname_1[-1]);
     print("Making alignment file named $Oname_2[0]....\n");
     print("$file_list[$i]\n");
-    `bowtie2 -p 8 --very-sensitive -x /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/KHM/align_data/Bowtie2indx/mm9 -U $file_list[$i] | samtools view -Sb - | samtools view -b -q 10 - | samtools sort - $p_directory/aligned/$Oname_2[0]`;
+    `bowtie2 -p 8 --very-sensitive -x /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/KHM/align_data/Bowtie2indx/mm9/mm9 -U $file_list[$i] | samtools view -Sb - | samtools view -b -q 10 - | samtools sort - $p_directory/aligned/$Oname_2[0]`;
 }

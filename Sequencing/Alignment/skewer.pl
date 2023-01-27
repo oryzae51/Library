@@ -7,11 +7,11 @@ print("Write the project directory :\n");
 my $p_directory = <STDIN>;
 chomp($p_directory);
 my $specific_name = "*.fastq.gz"; #specific_name for fastq file
-`mkdir $p_directory/aligned`;
+`mkdir $p_directory/trimmed`;
 
 #Extract each fastq file drictory from $fastq_dir and save to @file_list
 my @file_list = ();
-push(@file_list, `find $p_directory/trimmed -name '$specific_name'`);
+push(@file_list, `find $p_directory/rawdata -name '$specific_name'`);
 @file_list = sort(@file_list); #sort in suffix
 #check if the @file_list is made correctly
 for (@file_list){

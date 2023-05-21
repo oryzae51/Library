@@ -20,7 +20,7 @@ for (@file_list){
 }
 for (@file_list){
     print("$_\n");
-}`
+}
 #Run Trimgalore
 for (my $i=0; $i<$#file_list+1; $i+=2){
     my @Oname_1 = split(/\//, $file_list[$i]);

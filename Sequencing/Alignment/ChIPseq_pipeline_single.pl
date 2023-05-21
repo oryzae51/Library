@@ -50,7 +50,7 @@ for (my $i=0; $i<$#file_list+1; $i+=1){
     my @Oname_1 = split(/\//, $file_list[$i]);
     my @Oname_2 = split(/\.fq\./, $Oname_1[-1]);
     print("Making alignment file named $Oname_2[0]....\n");
-    `bowtie2 -p 6 --very-sensitive -x /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/KHM/align_data/Bowtie2indx/hg38 -X 1000 -U $file_list[$i] 2>>$p_directory/aligned/bt2.$Oname_2[0].log | samtools view -@ 2 -S -bh -q 10 -F 1804 - | samtools sort -@ 2 -m 24G -o $p_directory/aligned/$Oname_2[0].bam 2>>$p_directory/aligned/bt2.$Oname_2[0].log`;
+    `bowtie2 -p 6 --very-sensitive -x /media/bm/790240e4-2887-451f-ad02-1b19c4b4e120/KHM/align_data/Bowtie2indx/hg38/GRCh38_noalt_as -X 1000 -U $file_list[$i] 2>>$p_directory/aligned/bt2.$Oname_2[0].log | samtools view -@ 2 -S -bh -q 10 -F 1804 - | samtools sort -@ 2 -m 24G -o $p_directory/aligned/$Oname_2[0].bam 2>>$p_directory/aligned/bt2.$Oname_2[0].log`;
 }
 
 ###Run picard_MarkDup -> Remove duplicate, chrM, blacklist. And run samtools indexing
